@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["suculent@me.com"]
   spec.summary       = AppRepo::DESCRIPTION
   spec.description   = AppRepo::DESCRIPTION
-  spec.homepage      = "https://fastlane.tools"
+  spec.homepage      = "https://github.com/suculent/apprepo"
   spec.license       = "MIT"
 
   spec.required_ruby_version = '>= 2.0.0'
@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fastlane_core', '>= 0.43.1', '< 1.0.0' # all shared code and dependencies
   spec.add_dependency 'credentials_manager', '>= 0.16.0', '< 1.0.0'
   spec.add_dependency 'spaceship', '>= 0.26.2', '< 1.0.0' # Communication with iTunes Connect
-  spec.add_dependency 'rubygems'
+  #spec.add_dependency 'rubygems'
   spec.add_dependency 'net/ssh'
   spec.add_dependency 'net/sftp'
 
