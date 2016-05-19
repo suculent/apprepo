@@ -25,12 +25,15 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fastlane_core', '>= 0.43.1', '< 1.0.0' # all shared code and dependencies
   spec.add_dependency 'credentials_manager', '>= 0.16.0', '< 1.0.0'
   spec.add_dependency 'spaceship', '>= 0.26.2', '< 1.0.0' # Communication with iTunes Connect
+  spec.add_dependency 'rubygems'
+  spec.add_dependency 'net/ssh'
+  spec.add_dependency 'net/sftp'
 
   # third party dependencies
   spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the screenshots
   spec.add_dependency 'plist', '~> 3.1.0' # for reading the Info.plist of the ipa file
 
-  # Development only
+  # Development only  
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.1.0'
