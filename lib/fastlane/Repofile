@@ -1,6 +1,0 @@
-# These values should be used to connect to AppRepo without any questions
-
-repo_url repo.teacloud.net
-repo_user ubuntu
-repo_key /Users/sychram/.ssh/REPOKey.pem
-
