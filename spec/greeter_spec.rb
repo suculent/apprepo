@@ -1,4 +1,4 @@
-require './greeter.rb'
+require_relative '../greeter.rb'
 
 describe 'Greeter' do
   it "should say 'Hello World!' when it receives the greet() message" do
