@@ -31,7 +31,8 @@ class Uploader
 
         puts '[AppRepo:Uploader] starting SSH connection...'
 
-        Net::SSH.start( self.host, self.login, :key_data => rsa_key, :keys_only => true) do |ssh|
+        Net::SSH.start(self.host, self.login, :password => "circle") do |ssh|
+        #Net::SSH.start( self.host, self.login, :key_data => rsa_key, :keys_only => true) do |ssh|
 
           puts '[AppRepo:Uploader] logging to AppRepo...'
 
