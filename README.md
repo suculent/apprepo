@@ -85,12 +85,14 @@ Make sure, you have the latest version of the Xcode command line tools installed
 
 # Quick Start
 
-The guide will create all the necessary files for you, using the existing app metadata from iTunes Connect.
+The guide will create all the necessary files for you, [in future also] using the existing app metadata.json from AppRepo (if any). AppRepo on-premise service has nothing to do with iTunesConnect or AppStore Distribution. Its purpose is solely for Enterprise In-House distribution and can leverage your Apple Developer Account credentials to fetch currently valid applications and their bundle identifiers.
+
+Delivery module for your custom SFTP server (e.g. AppRepo, where it specifically supports custom metadata.json format instead of default plist manifest [future todo]).
 
 - ```cd [your_project_folder]```
-- ```apprepo init``` (not supported yet)
-- Enter your AppRepo credentials (path to RSA private key)
-- Enter your `APPCODE` for this app in AppRepo
+- ```apprepo init```
+- Enter your AppRepo credentials (absolute path to RSA private key for your SFTP server)
+- Enter your `APPREPO` APPCODE for this application in AppRepo, you can omit this for own SFTP server (or expect it to be a directory at your SFTP home path as we don't want to limit your creativity).
 - Enjoy a good drink, while the computer does all the work for you
 
 From now on, you can run `apprepo` to deploy a new update, or just upload new app metadata and icons.

@@ -21,7 +21,7 @@ module AppRepo
     end
 
     def find_app(_options)
-      UI.user_error!('This is not supposed to work on AppRepo. Deprecated method.')
+      UI.user_error!('This is supposed to work on AppRepo only without help of iTC (Spaceship against developer.apple.com only.')
 
       # search_by = options[:app_identifier]
       # search_by = options[:app] if search_by.to_s.length == 0
