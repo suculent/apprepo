@@ -7,8 +7,14 @@ machine:
 #    version: "7.3"
 
 dependencies:
-  - gem install bundler
-#  override:
+  pre:
+    - gem uninstall bundler # use a custom version of bundler
+    - gem install bundler --pre
+
+override:
+  - bundle install: # note ':' here
+      timeout: 180 # fail if command has no output for 3 minutes      
+
 #    - rake bundle_install_all
 #  cache_directories:
 #    - ~/.fastlane_bundle

@@ -1,5 +1,5 @@
 require 'webmock/rspec'
-require './lib/apprepo/uploader'
+require 'apprepo/uploader'
 
 #require 'apprepo'
 
