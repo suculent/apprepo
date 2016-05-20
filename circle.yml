@@ -9,9 +9,11 @@ machine:
 dependencies:
   pre:
     - gem install bundler
+    - gem install fastlane
     - bundle update
 
   override:
+    - rake bundle_install_all
     - bundle install: # note ':' here
         timeout: 180 # fail if command has no output for 3 minutes      
 

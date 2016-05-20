@@ -33,7 +33,7 @@ apprepo
 [![Twitter: @igraczech](https://img.shields.io/badge/contact-%40igraczech-green.svg?style=flat)](https://twitter.com/igraczech)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/fastlane/blob/master/deliver/LICENSE)
 [![Gem](https://img.shields.io/badge/gem-0.0.1-blue.svg)](http://rubygems.org/gems/apprepo)
-[![Build Status](https://img.shields.io/circleci/project/apprepo/master.svg?style=flat)](https://circleci.com/gh/fastlane/fastlane)
+[![Build Status](https://img.shields.io/circleci/project/suculent/apprepo.svg?style=flat)](https://circleci.com/gh/suculent/apprepo)
 
 ###### Upload screenshots, metadata and your app to the App Store using a single command
 

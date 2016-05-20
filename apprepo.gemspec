@@ -22,8 +22,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # fastlane dependencies
-  spec.add_dependency 'fastlane_core', '>= 0.43.1', '< 1.0.0' # all shared code and dependencies
-  spec.add_dependency 'credentials_manager', '>= 0.16.0', '< 1.0.0'
+  
+  spec.add_dependency 'fastlane', '~> 0', '< 2.0.0' # all shared code and dependencies
   spec.add_dependency 'net-ssh', '~> 0'
   spec.add_dependency 'net-sftp', '~> 0'
 
