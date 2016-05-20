@@ -6,7 +6,8 @@ machine:
 #  xcode:
 #    version: "7.3"
 
-#dependencies:
+dependencies:
+  - gem install bundler
 #  override:
 #    - rake bundle_install_all
 #  cache_directories:
