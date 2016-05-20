@@ -1,5 +1,5 @@
 require 'commander'
-require 'deliver/download_screenshots'
+#require 'apprepo/download_screenshots'
 
 HighLine.track_eof = false
 
