@@ -1,69 +1,102 @@
 require 'rubygems'
 require 'net/ssh'
 require 'net/sftp'
+require 'fastlane_core/languages'
+require_relative 'upload_descriptor'
 
-#
-# These want to be an input parameters:
-#
+module AppRepo
 
-host = 'repo.teacloud.net'
-user = 'ubuntu'
-keypath = '/Users/sychram/.ssh/REPOKey.pem'
+class Uploader
 
-File.open(keypath, "r") do |file|  
+    attr_accessor :host
 
-  rsa_key = [ file.read ]
+    attr_accessor :login
 
-    Net::SSH.start( host, user, :key_data => rsa_key, :keys_only => true) do |ssh|
-    
-    ssh.sftp.connect do |sftp|
-      
-      # upload a file or directory to the remote host
-      sftp.upload!("/Users/sychram/test.data", "/home/ubuntu/repo/test.data")
+    attr_accessor :keypath
 
-      result = ssh.exec!('ls')
+    def initialize (host, login, keypath)
+      self.host = host
+      self.login = login
+      self.keypath = keypath
+      puts 'Initializing "AppRepo:Uploader"'
+    end
 
-      puts result
+    def run
 
-      remote = '/home/ubuntu/repo/test.data'
-      local = '/Users/sychram/test.data.from-remote'
+      File.open(self.keypath, "r") do |file|  
 
-      # download a file or directory from the remote host
-      sftp.download!(remote, local)
+        puts '[AppRepo:Uploader] reading private key...'
 
-      # grab data off the remote host directly to a buffer
-      data = sftp.download!(remote)
+        rsa_key = [ file.read ]
 
-      # open and write to a pseudo-IO for a remote file
-      sftp.file.open(remote, "w") do |f|
-        f.puts "Hello, world!\n"
-      end
+        puts '[AppRepo:Uploader] starting SSH connection...'
 
-      # open and read from a pseudo-IO for a remote file
-      sftp.file.open(remote, "r") do |f|
-        puts f.gets
-      end
+        Net::SSH.start( self.host, self.login, :key_data => rsa_key, :keys_only => true) do |ssh|
 
-      directory = '/home/ubuntu/ruby-test'
+          puts '[AppRepo:Uploader] logging to AppRepo...'
 
-      # safely make a directory      
-      begin
-          sftp.mkdir directory
-      rescue Net::SFTP::StatusException => e
+          ssh.sftp.connect do |sftp|
+
+            puts '[AppRepo:Uploader] AppRepo successfully connected...'
+
+            puts '[AppRepo:Uploader] TODO: Traverse to correct "APPCODE" folder...'
+
+            result = ssh.exec!('cd repo/apps; ls')
+            puts result
+
+          # upload a file or directory to the remote host
+          sftp.upload!("/Users/sychram/test.data", "/home/ubuntu/repo/test.data")
+
+          result = ssh.exec!('ls')
+
+          puts result
+
+          remote = '/home/ubuntu/repo/test.data'
+          local = '/Users/sychram/test.data.from-remote'
+
+          # download a file or directory from the remote host
+          sftp.download!(remote, local)
+
+          # grab data off the remote host directly to a buffer
+          data = sftp.download!(remote)
+
+          # open and write to a pseudo-IO for a remote file
+          sftp.file.open(remote, "w") do |f|
+            f.puts "Hello, world!\n"
+          end
+
+          # open and read from a pseudo-IO for a remote file
+          sftp.file.open(remote, "r") do |f|
+            puts f.gets
+          end
+
+          directory = '/home/ubuntu/ruby-test'
+
+          # safely make a directory      
+          begin
+            sftp.mkdir directory
+          rescue Net::SFTP::StatusException => e
           # verify if this returns 11. Your server may return
           # something different like 4.
           if e.code == 11
-              puts "directory already exists. Carry on..."
-              sftp.rmdir!("/home/ubuntu/ruby-test")
+            puts "directory already exists. Carry on..."
+            sftp.rmdir!("/home/ubuntu/ruby-test")
           else 
-              raise
+            raise
           end 
-      end
 
-      # list the entries in a directory
-      sftp.dir.foreach(".") do |entry|
-        puts entry.longname
+        end
+
+        # list the entries in a directory
+        sftp.dir.foreach(".") do |entry|
+          puts entry.longname
+        end
       end
     end
   end
+end
+
+#upload = new AppRepo:Upload('repo.teacloud.net', 'ubuntu', '/Users/sychram/.ssh/REPOKey.pem')
+
+end
 end
