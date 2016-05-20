@@ -9,25 +9,29 @@ require 'net/sftp'
 #
 
 host = 'repo.teacloud.net'
-user = 'ubuntu'
+user = 'circle'
+password = 'circle'
 keypath = '/Users/sychram/.ssh/REPOKey.pem'
 
 File.open(keypath, "r") do |file|  
 
   rsa_key = [ file.read ]
 
-    Net::SSH.start( host, user, :key_data => rsa_key, :keys_only => true) do |ssh|
+    Net::SSH.start( host, user, :password => "circle") do |ssh|
+
+    # TODO: Enable SSH when key will work on circle@repo.tecloud.net
+    # Net::SSH.start( host, user, :key_data => rsa_key, :keys_only => true) do |ssh|
     
     ssh.sftp.connect do |sftp|
       
       # upload a file or directory to the remote host
-      sftp.upload!("/Users/sychram/test.data", "/home/ubuntu/repo/test.data")
+      sftp.upload!("/Users/sychram/test.data", "/home/circle/repo/test.data")
 
       result = ssh.exec!('ls')
 
       puts result
 
-      remote = '/home/ubuntu/repo/test.data'
+      remote = '/home/'+user+'/repo/test.data'
       local = '/Users/sychram/test.data.from-remote'
 
       # download a file or directory from the remote host
@@ -46,7 +50,7 @@ File.open(keypath, "r") do |file|
         puts f.gets
       end
 
-      directory = '/home/ubuntu/ruby-test'
+      directory = '/home/'+user+'/ruby-test'
 
       # safely make a directory      
       begin
@@ -56,7 +60,7 @@ File.open(keypath, "r") do |file|
           # something different like 4.
           if e.code == 11
               puts "directory already exists. Carry on..."
-              sftp.rmdir!("/home/ubuntu/ruby-test")
+              sftp.rmdir!("/home/"+user+"/ruby-test")
           else 
               raise
           end 
