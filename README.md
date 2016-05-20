@@ -6,7 +6,6 @@
   </a>
 </h3>
 <p align="center">
-  <b>apprepo</b> &bull;
   <a href="https://github.com/fastlane/fastlane/tree/master/deliver">deliver</a> &bull;
   <a href="https://github.com/fastlane/fastlane/tree/master/snapshot">snapshot</a> &bull;
   <a href="https://github.com/fastlane/fastlane/tree/master/frameit">frameit</a> &bull;
@@ -19,9 +18,12 @@
   <a href="https://github.com/fastlane/boarding">boarding</a> &bull;
   <a href="https://github.com/fastlane/fastlane/tree/master/gym">gym</a> &bull;
   <a href="https://github.com/fastlane/fastlane/tree/master/scan">scan</a> &bull;
-  <a href="https://github.com/fastlane/fastlane/tree/master/match">match</a>
+  <a href="https://github.com/fastlane/fastlane/tree/master/match">match</a> &bull;
+  <b>apprepo</b>
 </p>
--------
+<br/>
+<hr/>
+<br/>
 
 <p align="center">
   <img src="assets/apprepo.png" height="110">
@@ -30,14 +32,18 @@
 apprepo
 ============
 
+**This project is now in preparation phase. It is secure, therefore none of it works except for tests against test server with sample account & shared public key.**
+
 [![Twitter: @igraczech](https://img.shields.io/badge/contact-%40igraczech-green.svg?style=flat)](https://twitter.com/igraczech)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/fastlane/blob/master/deliver/LICENSE)
 [![Gem](https://img.shields.io/gem/v/apprepo.svg?style=flat)](http://rubygems.org/gems/apprepo)
 [![Build Status](https://img.shields.io/circleci/project/suculent/apprepo.svg?style=flat)](https://circleci.com/gh/suculent/apprepo)
 
-###### Upload screenshots, metadata and your app to the App Store using a single command
+###### Deliver IPAs, icons & metadata to AppRepo (or any other SFTP server) using a single command.
 
-`apprepo` can upload ipa files, app icons and metadata to any Enterprise AppRepo installation from the command line.
+`apprepo` can upload ipa files, app icons and metadata to your Enterprise iOS distribution site from the command line. 
+
+You can vote for Android support as well, Michal.
 
 Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/igraczech)
 
@@ -53,9 +59,9 @@ Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/i
 
 -------
 
-<h5 align="center"><code>apprepo</code> is 3rd party extension of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps.</h5>
+<h5 align="center"><code>apprepo</code> is now just a couple days old 3rd party extension of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps. I'm in contact with Felix Krause to make this part of Fastlane as open SFTP uploader adjacent to `Deliver`.</h5>
 
-# Features
+# Future Features
 - Submit to AppRepo completely automatically
 - Upload a new ipa file to AppRepo without Xcode from any Mac
 - Maintain your app metadata locally and push changes to AppRepo
@@ -92,17 +98,14 @@ From now on, you can run `apprepo` to deploy a new update, or just upload new ap
 
 # Usage
 
-...
+... to be done ...
 
 # Credentials
 
-...
+... to be done ...
 
-### How does this thing even work? Is magic involved? 🎩###
 
-...
-
-# Tips
+# Fastlane Tips
 
 ## [`fastlane`](https://fastlane.tools) Toolchain
 
