@@ -14,7 +14,12 @@ dependencies:
 
   override:
     - bundle install: # note ':' here
-        timeout: 180 # fail if command has no output for 3 minutes      
+        timeout: 180 # fail if command has no output for 3 minutes  
+
+test:
+  override:
+    - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+
 
 
 ## Custom notifications
