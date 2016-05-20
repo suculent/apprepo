@@ -1,8 +1,0 @@
-machine:
-  ruby:
-    version: rbx-2.2.6
-
-dependencies:
-  post:
-    - bundle exec rake assets:precompile
-
