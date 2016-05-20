@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'net-sftp', '~> 0'
 
   # third party dependencies
-  spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the screenshots
+  spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the icons
   spec.add_dependency 'plist', '~> 3.1', '>= 3.1.0'
 
   # Development only  
