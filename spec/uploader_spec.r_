@@ -1,7 +1,7 @@
 require 'webmock/rspec'
 require 'apprepo/uploader'
 
-# require 'apprepo'
+require 'apprepo'
 
 describe AppRepo do
   describe AppRepo::Uploader do

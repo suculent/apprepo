@@ -2,7 +2,7 @@ require 'coveralls'
 Coveralls.wear! unless ENV['FASTLANE_SKIP_UPDATE_CHECK']
 
 # This module is only used to check the environment is currently a testing env
-# Needs to be above the `require 'deliver'`
+# Needs to be above the `require 'apprepo'`
 module SpecHelper
 end
 
@@ -14,7 +14,7 @@ ENV['DELIVER_PASSWORD'] = 'DELIVERPASS'
 
 RSpec.configure do |config|
   config.before(:each) do
-    # allow(Spaceship::Tunes).to receive(:login).and_return(nil)
+    # we do not authenticate against spaceship but apprepo here... where will the ssh session be strongly held?
   end
 end
 
