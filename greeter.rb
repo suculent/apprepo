@@ -1,7 +1,5 @@
-class Greeter  
-  
+class Greeter
   def greet
-    "Hello World!"
+    'Hello World!'
   end
-  
 end

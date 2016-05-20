@@ -2,19 +2,19 @@ module AppRepo
   # upload description, rating, etc.
   class UploadMetadata
     # All the localised values attached to the version
-    LOCALISED_VERSION_VALUES = [:description, :keywords, :release_notes, :support_url, :marketing_url]
+    LOCALISED_VERSION_VALUES = [:description, :keywords, :release_notes, :support_url, :marketing_url].freeze
 
     # Everything attached to the version but not being localised
-    NON_LOCALISED_VERSION_VALUES = [:copyright]
+    NON_LOCALISED_VERSION_VALUES = [:copyright].freeze
 
     # Localised app details values
-    LOCALISED_APP_VALUES = [:name, :privacy_url]
+    LOCALISED_APP_VALUES = [:name, :privacy_url].freeze
 
     # Non localized app details values
     NON_LOCALISED_APP_VALUES = [:primary_category, :secondary_category,
                                 :primary_first_sub_category, :primary_second_sub_category,
                                 :secondary_first_sub_category, :secondary_second_sub_category
-                               ]
+                               ].freeze
 
     # Make sure to call `load_from_filesystem` before calling upload
     def upload(options)
@@ -30,7 +30,7 @@ module AppRepo
         current = options[key]
         next unless current
 
-        unless current.kind_of?(Hash)
+        unless current.is_a?(Hash)
           UI.error("Error with provided '#{key}'. Must be a hash, the key being the language.")
           next
         end
@@ -55,10 +55,10 @@ module AppRepo
       set_review_information(v, options)
       set_app_rating(v, options)
 
-      UI.message("Uploading metadata to iTunes Connect")
+      UI.message('Uploading metadata to iTunes Connect')
       v.save!
       details.save!
-      UI.success("Successfully uploaded initial set of metadata to iTunes Connect")
+      UI.success('Successfully uploaded initial set of metadata to iTunes Connect')
     end
 
     # If the user is using the 'default' language, then assign values where they are needed
@@ -69,28 +69,28 @@ module AppRepo
       # Get all languages used in existing settings
       (LOCALISED_VERSION_VALUES + LOCALISED_APP_VALUES).each do |key|
         current = options[key]
-        next unless current && current.kind_of?(Hash)
-        current.each do |language, value|
+        next unless current && current.is_a?(Hash)
+        current.each do |language, _value|
           enabled_languages << language unless enabled_languages.include?(language)
         end
       end
 
       # Check folder list (an empty folder signifies a language is required)
-      Dir.glob(File.join(options[:metadata_path], "*")).each do |lng_folder|
+      Dir.glob(File.join(options[:metadata_path], '*')).each do |lng_folder|
         next unless File.directory?(lng_folder) # We don't want to read txt as they are non localised
 
         language = File.basename(lng_folder)
         enabled_languages << language unless enabled_languages.include?(language)
       end
 
-      return unless enabled_languages.include?("default")
-      UI.message("Detected languages: " + enabled_languages.to_s)
+      return unless enabled_languages.include?('default')
+      UI.message('Detected languages: ' + enabled_languages.to_s)
 
       (LOCALISED_VERSION_VALUES + LOCALISED_APP_VALUES).each do |key|
         current = options[key]
-        next unless current && current.kind_of?(Hash)
+        next unless current && current.is_a?(Hash)
 
-        default = current["default"]
+        default = current['default']
         next if default.nil?
 
         enabled_languages.each do |language|
@@ -99,7 +99,7 @@ module AppRepo
 
           current[language] = default
         end
-        current.delete("default")
+        current.delete('default')
       end
     end
 
@@ -116,16 +116,16 @@ module AppRepo
       enabled_languages = []
       LOCALISED_VERSION_VALUES.each do |key|
         current = options[key]
-        next unless current && current.kind_of?(Hash)
-        current.each do |language, value|
+        next unless current && current.is_a?(Hash)
+        current.each do |language, _value|
           enabled_languages << language unless enabled_languages.include?(language)
         end
       end
 
       if enabled_languages.count > 0
         v.create_languages(enabled_languages)
-        lng_text = "language"
-        lng_text += "s" if enabled_languages.count != 1
+        lng_text = 'language'
+        lng_text += 's' if enabled_languages.count != 1
         UI.message("Activating #{lng_text} #{enabled_languages.join(', ')}...")
         v.save!
       end
@@ -164,7 +164,7 @@ module AppRepo
     def set_review_information(v, options)
       return unless options[:app_review_information]
       info = options[:app_review_information]
-      UI.user_error!("`app_review_information` must be a hash") unless info.kind_of?(Hash)
+      UI.user_error!('`app_review_information` must be a hash') unless info.is_a?(Hash)
 
       v.review_first_name = info[:first_name] if info[:first_name]
       v.review_last_name = info[:last_name] if info[:last_name]

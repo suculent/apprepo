@@ -13,7 +13,7 @@ module AppRepo
       UI.message("Login to iTunes Connect (#{options[:username]})")
       Spaceship::Tunes.login(options[:username])
       Spaceship::Tunes.select_team
-      UI.message("Login successful")
+      UI.message('Login successful')
     end
 
     def run
@@ -25,7 +25,7 @@ module AppRepo
         upload_binary
       end
 
-      UI.success("Finished the upload to iTunes Connect")
+      UI.success('Finished the upload to iTunes Connect')
 
       submit_for_review if options[:submit_for_review]
     end
@@ -63,24 +63,24 @@ module AppRepo
 
     # Upload the binary to iTunes Connect
     def upload_binary
-      UI.message("Uploading binary to iTunes Connect")
+      UI.message('Uploading binary to iTunes Connect')
       if options[:ipa]
         package_path = FastlaneCore::IpaUploadPackageBuilder.new.generate(
           app_id: options[:app].apple_id,
           ipa_path: options[:ipa],
-          package_path: "/tmp"
+          package_path: '/tmp'
         )
       elsif options[:pkg]
         package_path = FastlaneCore::PkgUploadPackageBuilder.new.generate(
           app_id: options[:app].apple_id,
           pkg_path: options[:pkg],
-          package_path: "/tmp"
+          package_path: '/tmp'
         )
       end
 
       transporter = FastlaneCore::ItunesTransporter.new(options[:username])
       result = transporter.upload(options[:app].apple_id, package_path)
-      UI.user_error!("Could not upload binary to iTunes Connect. Check out the error above") unless result
+      UI.user_error!('Could not upload binary to iTunes Connect. Check out the error above') unless result
     end
 
     def submit_for_review

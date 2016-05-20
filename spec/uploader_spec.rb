@@ -1,11 +1,11 @@
 require 'webmock/rspec'
 require 'apprepo/uploader'
 
-#require 'apprepo'
+# require 'apprepo'
 
 describe AppRepo do
   describe AppRepo::Uploader do
-    it "properly uploads existing IPA metadata" do
+    it 'properly uploads existing IPA metadata' do
       # app = "app"
       # version = "version"
       # allow(Spaceship::Application).to receive(:find).and_return(app)
@@ -16,10 +16,10 @@ describe AppRepo do
       #   app_identifier: "tools.fastlane.app",
       #   username: "flapple@krausefx.com",
       # }
-      # Deliver::Runner.new(options) 
+      # Deliver::Runner.new(options)
       # Deliver::Setup.new.run(options)
       upload = AppRepo::Uploader.new('repo.teacloud.net', 'ubuntu', '/Users/sychram/.ssh/REPOKey.pem') # to login
-      uploadDescriptor = AppRepo::UploadDescriptor.new("APPREPO")  
+      uploadDescriptor = AppRepo::UploadDescriptor.new('APPREPO')
       upload.run
     end
   end

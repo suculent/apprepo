@@ -17,23 +17,21 @@ module AppRepo
       end
 
       options[:app_identifier] = identifier if identifier.to_s.length > 0
-      options[:app_identifier] ||= UI.input("The Bundle Identifier of your App: ")
+      options[:app_identifier] ||= UI.input('The Bundle Identifier of your App: ')
     end
 
-    def find_app(options)
-      
-      UI.user_error!("This is not supposed to work on AppRepo. Deprecated method.")
+    def find_app(_options)
+      UI.user_error!('This is not supposed to work on AppRepo. Deprecated method.')
 
-      #search_by = options[:app_identifier]
-      #search_by = options[:app] if search_by.to_s.length == 0
-      
-      #app = Spaceship::Application.find(search_by)
-      #if app
+      # search_by = options[:app_identifier]
+      # search_by = options[:app] if search_by.to_s.length == 0
+
+      # app = Spaceship::Application.find(search_by)
+      # if app
       #  options[:app] = app
-      #else
+      # else
       #  UI.user_error!("Could not find app with app identifier '#{options[:app_identifier]}' in your iTunes Connect account (#{options[:username]} - Team: #{Spaceship::Tunes.client.team_id})")
-      #end
-
+      # end
     end
 
     def find_folders(options)

@@ -20,19 +20,18 @@ require_relative 'apprepo/upload_descriptor' # will deprecate or replace :app in
 require 'fastlane_core'
 
 module AppRepo
-
   class << self
-  	  def initialize
-      puts 'Initializing "AppRepo:Uploader"'
+      def initialize
+        puts 'Initializing "AppRepo:Uploader"'
       end
   end
-  
+
   Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
   UI = FastlaneCore::UI
 
   # Will read following parameters from fastlane/Repofile in future
 
-  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__)+'/../assets/circle.key')
-  uploadDescriptor = UploadDescriptor.new("APPREPO")  
+  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key')
+  uploadDescriptor = UploadDescriptor.new('APPREPO')
   upload.run
 end
