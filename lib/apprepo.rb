@@ -1,9 +1,20 @@
 #!/usr/bin/env ruby
 
 require 'json'
+
 require_relative 'apprepo/version'
+require_relative 'apprepo/options'
+require_relative 'apprepo/commands_generator'
+require_relative 'apprepo/detect_values'
+require_relative 'apprepo/runner'
+require_relative 'apprepo/upload_metadata'
+require_relative 'apprepo/upload_assets'
+require_relative 'apprepo/setup'
 require_relative 'apprepo/uploader'
-require_relative 'apprepo/upload_descriptor'
+require_relative 'apprepo/loader'
+
+require_relative 'apprepo/upload_descriptor' # will deprecate or replace :app info
+
 require 'fastlane_core'
 
 module AppRepo

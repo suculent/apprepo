@@ -1,0 +1,1 @@
+gem build apprepo.gemspec

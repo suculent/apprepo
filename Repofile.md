@@ -4,9 +4,9 @@ All the options below can easily be added to your `Repofile`. The great thing: i
 
 ```ruby
 apprepo(
-  repo_url: "apprepo.example.com",
-  repo_user: "apprepo",
-  repo_key: "/Users/igraczech/.ssh/REPOKey.pem",
+  repo_url: "repo.teacloud.net",
+  repo_user: "circle",
+  repo_key: "circle.key",
   notify: true
 )
 ```

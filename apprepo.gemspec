@@ -6,7 +6,7 @@ require 'apprepo/version'
 Gem::Specification.new do |spec|
   spec.name          = "apprepo"
   spec.version       = AppRepo::VERSION
-  spec.authors       = ["Matej Sychra", "Felix Krause"]
+  spec.authors       = ["Felix Krause", "Matej Sychra"]
   spec.email         = ["suculent@me.com"]
   spec.summary       = AppRepo::DESCRIPTION
   spec.description   = AppRepo::DESCRIPTION
@@ -29,7 +29,6 @@ Gem::Specification.new do |spec|
 
   # third party dependencies
   spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the icons
-  spec.add_dependency 'plist', '~> 3.1', '>= 3.1.0'
 
   # Development only  
   spec.add_development_dependency 'bundler', '~> 1.0'
