@@ -1,3 +1,6 @@
+build-gem.sh
+publish-gem.sh
+
 .DS_Store
 *.gem
 *.rbc
