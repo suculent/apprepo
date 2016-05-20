@@ -20,7 +20,7 @@ dependencies:
 ## Custom notifications
 notify:
   webhooks:
-    - url: https://hooks.slack.com/services/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?payload=payload={"text":"<https://slack.com>"}
+    - url: https://hooks.slack.com/services/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?payload={"text":"<https://slack.com>"}
 #    - rake bundle_install_all
 #  cache_directories:
 #    - ~/.fastlane_bundle
