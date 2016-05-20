@@ -18,8 +18,8 @@ describe AppRepo do
       # }
       # Deliver::Runner.new(options)
       # Deliver::Setup.new.run(options)
-      upload = AppRepo::Uploader.new('repo.teacloud.net', 'ubuntu', '/Users/sychram/.ssh/REPOKey.pem') # to login
-      uploadDescriptor = AppRepo::UploadDescriptor.new('APPREPO')
+      upload = AppRepo::Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key')
+      uploadDescriptor = AppRepo::UploadDescriptor.new('APPREPO') # sample descriptor, folder already exists on sample site, must be handled correctly or createdd
       upload.run
     end
   end

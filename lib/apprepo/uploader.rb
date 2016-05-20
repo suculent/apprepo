@@ -92,6 +92,6 @@ module AppRepo
       end
 end
 
-    # upload = new AppRepo:Upload('repo.teacloud.net', 'ubuntu', '/Users/sychram/.ssh/REPOKey.pem')
+    # upload = new AppRepo:Upload('repo.teacloud.net', 'circle', '/Users/sychram/.ssh/REPOKey.pem')
   end
 end
