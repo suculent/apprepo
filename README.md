@@ -37,7 +37,7 @@ apprepo
 
 ###### Upload screenshots, metadata and your app to the App Store using a single command
 
-`apprepo` can upload ipa files, app icons and metadata to T-Mobile Enterprise AppRepo from the command line.
+`apprepo` can upload ipa files, app icons and metadata to any Enterprise AppRepo installation from the command line.
 
 Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/igraczech)
 
@@ -53,12 +53,12 @@ Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/i
 
 -------
 
-<h5 align="center"><code>deliver</code> is part of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps.</h5>
+<h5 align="center"><code>apprepo</code> is 3rd party extension of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps.</h5>
 
 # Features
-- Upload to AppRepo completely automatically
+- Submit to AppRepo completely automatically
 - Upload a new ipa file to AppRepo without Xcode from any Mac
-- Maintain your app metadata locally and push changes back to AppRepo
+- Maintain your app metadata locally and push changes to AppRepo
 - Easily implement a real Continuous Deployment process using [fastlane](https://fastlane.tools)
 - Store the configuration in git to easily deploy from **any** Mac, including your Continuous Integration server
 
@@ -66,7 +66,6 @@ To upload builds to AppStore check out [deliver](https://github.com/fastlane/fas
 
 To upload builds to TestFlight check out [pilot](https://github.com/fastlane/fastlane/tree/master/pilot).
 
-##### [Like this tool? Be the first to know about updates and new fastlane tools](https://tinyletter.com/krausefx)
 
 # Installation
 
@@ -83,14 +82,13 @@ Make sure, you have the latest version of the Xcode command line tools installed
 The guide will create all the necessary files for you, using the existing app metadata from iTunes Connect.
 
 - ```cd [your_project_folder]```
-- ```apprepo init```
+- ```apprepo init``` (not supported yet)
 - Enter your AppRepo credentials (path to RSA private key)
-- Enter your app-code
+- Enter your `APPCODE` for this app in AppRepo
 - Enjoy a good drink, while the computer does all the work for you
 
 From now on, you can run `apprepo` to deploy a new update, or just upload new app metadata and icons.
 
-Already using Jenkins and just updated to `apprepo`? Check out the [Migration Guide](https://github.com/fastlane/fastlane/blob/master/deliver/MigrationGuide.md).
 
 # Usage
 
@@ -125,14 +123,14 @@ Already using Jenkins and just updated to `apprepo`? Check out the [Migration Gu
 ##### [Like this tool? Be the first to know about updates and new fastlane tools](https://tinyletter.com/krausefx)
 
 
-## Editing the ```Deliverfile```
+## Editing the ```Repofile```
 Change syntax highlighting to *Ruby*.
 
 # Need help?
 Please submit an issue on GitHub and provide information about your setup
 
 # Code of Conduct
-Help us keep `apprepo` open and inclusive. Please read and follow our [Code of Conduct](https://github.com/fastlane/fastlane/blob/master/CODE_OF_CONDUCT.md).
+Help us keep `apprepo` open and inclusive. Please read and follow our [Code of Conduct](https://github.com/suculent/apprepo/blob/master/CODE_OF_CONDUCT.md).
 
 # License
 This project is licensed under the terms of the MIT license. See the LICENSE file.
