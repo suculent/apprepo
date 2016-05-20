@@ -11,9 +11,9 @@ require 'net/sftp'
 host = 'repo.teacloud.net'
 user = 'circle'
 password = 'circle'
-keypath = '/Users/sychram/.ssh/REPOKey.pem'
+keypath = '../assets/circle.key'
 
-File.open(keypath, "r") do |file|  
+File.open(File.dirname(__FILE__)+"/"+keypath, "r") do |file|  
 
   rsa_key = [ file.read ]
 

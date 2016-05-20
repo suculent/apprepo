@@ -45,13 +45,13 @@ class Uploader
             puts result
 
           # upload a file or directory to the remote host
-          sftp.upload!("/Users/sychram/test.data", "/home/ubuntu/repo/test.data")
+          sftp.upload!("/Users/sychram/test.data", "/home/circle/repo/test.data")
 
           result = ssh.exec!('ls')
 
           puts result
 
-          remote = '/home/ubuntu/repo/test.data'
+          remote = '/home/circle/repo/test.data'
           local = '/Users/sychram/test.data.from-remote'
 
           # download a file or directory from the remote host
@@ -70,7 +70,7 @@ class Uploader
             puts f.gets
           end
 
-          directory = '/home/ubuntu/ruby-test'
+          directory = '/home/circle/ruby-test'
 
           # safely make a directory      
           begin
@@ -80,7 +80,7 @@ class Uploader
           # something different like 4.
           if e.code == 11
             puts "directory already exists. Carry on..."
-            sftp.rmdir!("/home/ubuntu/ruby-test")
+            sftp.rmdir!("/home/circle/ruby-test")
           else 
             raise
           end 

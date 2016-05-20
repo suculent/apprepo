@@ -30,9 +30,9 @@ module AppRepo
   Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
   UI = FastlaneCore::UI
 
-  # Should read following parameters from fastlane/Repofile:
-  #test only
-  upload = Uploader.new('repo.teacloud.net', 'ubuntu', '/Users/sychram/.ssh/REPOKey.pem')
+  # Will read following parameters from fastlane/Repofile in future
+
+  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__)+'/../assets/circle.key')
   uploadDescriptor = UploadDescriptor.new("APPREPO")  
   upload.run
 end
