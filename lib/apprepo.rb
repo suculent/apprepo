@@ -22,16 +22,29 @@ require 'fastlane_core'
 module AppRepo
   class << self
       def initialize
-        puts 'Initializing "AppRepo:Uploader"'
+        UI.message('[AppRepo] Initializing...')
       end
   end
 
   Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
   UI = FastlaneCore::UI
 
-  # Will read following parameters from fastlane/Repofile in future
+  # Test Setup (Repofile)
+  setup = AppRepo::Setup.new()
+  setup.run
 
-  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key')
-  uploadDescriptor = UploadDescriptor.new('APPREPO')
+  # Setup descriptor (appcode, ipa, metadata - from repofile)!
+  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet
   upload.run
+
+  # Test Uploader (Core)
+  appcode = 'ruby-test'
+  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
+
+  
+
+  # Test Runner (Uploader Delegate)
+  runner = AppRepo::Runner.new()
+  runner.run
+
 end

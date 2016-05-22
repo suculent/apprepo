@@ -22,11 +22,11 @@ File.open(File.dirname(__FILE__) + '/' + keypath, 'r') do |file|
 
     ssh.sftp.connect do |sftp|
       # upload a file or directory to the remote host
-      sftp.upload!('/Users/sychram/test.data', '/home/circle/repo/test.data')
+      sftp.upload!('~/test.data', '/home/circle/repo/test.data')
 
       result = ssh.exec!('ls')
 
-      puts result
+      UI.message(result)
 
       remote = '/home/' + user + '/repo/test.data'
       local = '/Users/sychram/test.data.from-remote'
@@ -39,7 +39,7 @@ File.open(File.dirname(__FILE__) + '/' + keypath, 'r') do |file|
 
       # open and write to a pseudo-IO for a remote file
       sftp.file.open(remote, 'w') do |f|
-        f.puts "Hello, world!\n"
+        UI.message("opened file from sftp")
       end
 
       # open and read from a pseudo-IO for a remote file
