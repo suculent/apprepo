@@ -14,7 +14,7 @@ module AppRepo
 
     def initialize(appcode)
       self.appcode = appcode
-      puts 'Initializing "AppRepo:Manifest requies at least APPCODE :"' + self.appcode
+      UI.message('Initializing "AppRepo:Manifest requies at least APPCODE :"' + self.appcode)
     end
 
     # Provide JSON serialized data

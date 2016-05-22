@@ -1,6 +1,7 @@
 module AppRepo
   class Setup
     def run(options)
+      UI.message('[AppRepo:Setup] Running...')
       containing = (File.directory?('fastlane') ? 'fastlane' : '.')
       file_path = File.join(containing, 'Repofile')
       data = generate_apprepo_file(containing, options)

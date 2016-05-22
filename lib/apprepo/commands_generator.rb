@@ -1,5 +1,4 @@
 require 'commander'
-# require 'apprepo/download_screenshots'
 
 HighLine.track_eof = false
 
