@@ -29,22 +29,23 @@ module AppRepo
   Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
   UI = FastlaneCore::UI
 
+  options = AppRepo::Options.available_options
+  appcode = 'ruby-test'
+
   # Test Setup (Repofile)
   setup = AppRepo::Setup.new()
-  setup.run
+  setup.run(options)
 
   # Setup descriptor (appcode, ipa, metadata - from repofile)!
-  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet
-  upload.run
-
-  # Test Uploader (Core)
-  appcode = 'ruby-test'
-  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
-
-  
+  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet  
+  uploadDescriptor.appcode = appcode  
 
   # Test Runner (Uploader Delegate)
-  runner = AppRepo::Runner.new()
+  runner = AppRepo::Runner.new(options)
   runner.run
+
+  # Test Uploader (Core)  
+  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
+  upload.run(Options)
 
 end

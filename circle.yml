@@ -30,7 +30,7 @@ notify:
 #  cache_directories:
 #    - ~/.fastlane_bundle
 
-#test:
+test:
 #  override:
 #    - bundle exec danger
 #    - bundle exec rake test_all

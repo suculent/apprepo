@@ -20,13 +20,14 @@ module AppRepo
     # This method takes care of creating a new 'apprepo' folder, containg the app metadata
     # and screenshots folders
     def generate_apprepo_file(apprepo_path, options)
-      v = options[:app].latest_version
-      generate_metadata_files(v, File.join(apprepo_path, 'metadata'))
+      #
+      #v = options[:app].latest_version
+      #generate_metadata_files(v, File.join(apprepo_path, 'metadata'))
 
       # Generate the final Repofile here
       gem_path = Helper.gem_path('apprepo')
-      deliver = File.read("#{gem_path}/lib/assets/RepofileDefault")
-      deliver.gsub!('[[APP_IDENTIFIER]]', options[:app].bundle_id)
+      deliver = File.read("#{gem_path}/assets/RepofileDefault")
+      #deliver.gsub!('[[APP_IDENTIFIER]]', options[:app].bundle_id)
       # deliver.gsub!("[[APP_IPA]]", options[:app]...)
       # deliver.gsub!("[[APP_VERSION]]", options[:app].version)
       # deliver.gsub!("[[APP_NAME]]", options[:app].name)

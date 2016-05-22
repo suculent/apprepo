@@ -1,8 +1,7 @@
 module AppRepo
   class DetectValues
     def run!(options)
-      find_app_identifier(options)
-      find_app(options)
+      #find_app_identifier(options
       find_folders(options)
       find_version(options)
     end
@@ -20,23 +19,9 @@ module AppRepo
       options[:app_identifier] ||= UI.input('The Bundle Identifier of your App: ')
     end
 
-    def find_app(_options)
-      UI.user_error!('This is supposed to work on AppRepo only without help of iTC (Spaceship against developer.apple.com only.')
-
-      # search_by = options[:app_identifier]
-      # search_by = options[:app] if search_by.to_s.length == 0
-
-      # app = Spaceship::Application.find(search_by)
-      # if app
-      #  options[:app] = app
-      # else
-      #  UI.user_error!("Could not find app with app identifier '#{options[:app_identifier]}' in your iTunes Connect account (#{options[:username]} - Team: #{Spaceship::Tunes.client.team_id})")
-      # end
-    end
-
     def find_folders(options)
       containing = Helper.fastlane_enabled? ? './fastlane' : '.'
-      options[:metadata_path] ||= File.join(containing, 'metadata')
+      options[:metadata_path] ||= File.join(containing, 'manifest.json')
 
       FileUtils.mkdir_p(options[:metadata_path])
     end
