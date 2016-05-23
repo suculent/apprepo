@@ -9,8 +9,8 @@ end
 require 'apprepo'
 require 'webmock/rspec'
 
-ENV['DELIVER_USER'] = 'DELIVERUSER'
-ENV['DELIVER_PASSWORD'] = 'DELIVERPASS'
+ENV['APPREPO_USER'] = 'DELIVERUSER'
+ENV['APPREPO_PASSWORD'] = 'DELIVERPASS'
 
 RSpec.configure do |config|
   config.before(:each) do

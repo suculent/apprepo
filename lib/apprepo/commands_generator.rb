@@ -35,7 +35,7 @@ module AppRepo
         c.action do |_args, options|
           options = FastlaneCore::Configuration.create(AppRepo::Options.available_options, options.__hash__)
           loaded = options.load_configuration_file('Repofile')
-          loaded = true if options[:description] || options[:ipa] || options[:pkg] # do we have *anything* here?
+          loaded = true if options[:repo_description] || options[:ipa]
           unless loaded
             if UI.confirm('No AppRepo configuration found in the current directory. Do you want to setup apprepo?')
               require 'apprepo/setup'
@@ -85,7 +85,7 @@ module AppRepo
           AppRepo::Runner.new(options) # to login...
           containing = FastlaneCore::Helper.fastlane_enabled? ? './fastlane' : '.'
           path = options[:metadata_path] || File.join(containing, 'metadata')
-          res = ENV['DELIVER_FORCE_OVERWRITE']
+          res = ENV['APPREPO_FORCE_OVERWRITE']
           res ||= UI.confirm("Do you want to overwrite existing metadata on path '#{File.expand_path(path)}'?")
           if res
             require 'apprepo/setup'

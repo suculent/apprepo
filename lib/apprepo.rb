@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# encoding: utf-8
+
 require 'json'
 
 require_relative 'apprepo/version'
@@ -26,26 +28,31 @@ module AppRepo
       end
   end
 
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+
+  # Generate options (simulates commands_generator.rb)
   Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
   UI = FastlaneCore::UI
 
-  options = AppRepo::Options.available_options
   appcode = 'ruby-test'
 
   # Test Setup (Repofile)
+  UI.message('[AppRepoTest] Setup.new')
   setup = AppRepo::Setup.new()
-  setup.run(options)
+  setup.run(Options)
 
   # Setup descriptor (appcode, ipa, metadata - from repofile)!
+  UI.message('[AppRepoTest] UploadDescriptor.new')
   uploadDescriptor = UploadDescriptor.new(appcode) # not used yet  
   uploadDescriptor.appcode = appcode  
 
-  # Test Runner (Uploader Delegate)
-  runner = AppRepo::Runner.new(options)
-  runner.run
-
   # Test Uploader (Core)  
+  UI.message('[AppRepoTest] Uploader.new')
   upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
   upload.run(Options)
+
+  UI.message('[AppRepoTest] AppRepo::CommandsGenerator.new.run')
+  CommandsGenerator.new.run  
 
 end

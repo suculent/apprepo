@@ -26,13 +26,13 @@ module AppRepo
 
       # Generate the final Repofile here
       gem_path = Helper.gem_path('apprepo')
-      deliver = File.read("#{gem_path}/assets/RepofileDefault")
-      #deliver.gsub!('[[APP_IDENTIFIER]]', options[:app].bundle_id)
-      # deliver.gsub!("[[APP_IPA]]", options[:app]...)
-      # deliver.gsub!("[[APP_VERSION]]", options[:app].version)
-      # deliver.gsub!("[[APP_NAME]]", options[:app].name)
-      UI.success("TODO: ADJUST Repofile'")
-      deliver
+      apprepo = File.read("#{gem_path}/../assets/RepofileDefault")
+      apprepo.gsub!("[[APP_IDENTIFIER]]", options[:app].bundle_id)
+      apprepo.gsub!("[[APPREPO_IPA_PATH]]", options[:app].file_path)
+      apprepo.gsub!("[[APP_VERSION]]", options[:app].version)
+      apprepo.gsub!("[[APP_NAME]]", options[:app].name)
+      UI.user_error("TODO: ADJUST Repofile'")
+      apprepo
     end
 
     def download_metadata(apprepo_path, _options)

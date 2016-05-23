@@ -1,23 +1,27 @@
 # encoding: utf-8
 
+# THIS FILE IS USED FOR TESTING ONLY!
+
 ###################### More Options ######################
 # If you want to have even more control, check out the documentation
-# https://github.com/fastlane/fastlane/blob/master/deliver/Deliverfile.md
+# https://github.com/suculent/apprepo/blob/master/Repofile.md
 
 
 ###################### Automatically generated ######################
 # Feel free to remove the following line if you use fastlane (which you should)
 
-app_identifier "[[APP_IDENTIFIER]]"
-ipa "[[APP_IDENTIFIER]]"
-app_version "[[APP_VERSION]]"
-meta_title "[[APP_NAME]]"
+# THIS FILE IS USED FOR TESTING ONLY!
+app_identifier "com.apprepo.test"
+ipa File.dirname(__FILE__)+"/../sampleapp.ipa"
+app_version "1.0"
+meta_title "TestApp"
+repo_description "Some description is required for AppRepo users to know, that is this app."
 
 #
 # Authentication
 #
 
-# You can use your `~/.ssh/config` file to setup RSA keys to AppRepo, or use following options:
+# You can use your '~/.ssh/config' file to setup RSA keys to AppRepo, or use following options:
 
 repo_url "repo.teacloud.net"
 repo_user "circle"

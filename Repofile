@@ -1,15 +1,15 @@
 ###################### More Options ######################
 # If you want to have even more control, check out the documentation
-# https://github.com/fastlane/fastlane/blob/master/deliver/Deliverfile.md
+# https://github.com/suculent/apprepo/blob/master/repo/Repofile.md
 
 
 ###################### Automatically generated ######################
 # Feel free to remove the following line if you use fastlane (which you should)
 
-app_identifier "[[APP_IDENTIFIER]]"
-ipa "[[APP_IDENTIFIER]]"
-app_version "[[APP_VERSION]]"
-meta_title "[[APP_NAME]]"
+app_identifier "com.apprepo.test"
+ipa File.dirname(__FILE__)+"/sampleapp.ipa"
+app_version "0.1"
+meta_title "TestApp"
 
 #
 # Authentication
