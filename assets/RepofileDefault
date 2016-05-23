@@ -9,7 +9,7 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "[[APP_IDENTIFIER]]"
-ipa "[[APP_IDENTIFIER]]"
+ipa "[[APPREPO_IPA_PATH]]"
 app_version "[[APP_VERSION]]"
 meta_title "[[APP_NAME]]"
 
@@ -22,8 +22,6 @@ meta_title "[[APP_NAME]]"
 repo_url "repo.teacloud.net"
 repo_user "circle"
 repo_key "./lib/assets/circle.pub"
-
-# app_identifier "" # your app's bundle identifier
 
 # notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
