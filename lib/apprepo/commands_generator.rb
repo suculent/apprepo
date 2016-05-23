@@ -89,7 +89,8 @@ module AppRepo
           res ||= UI.confirm("Do you want to overwrite existing metadata on path '#{File.expand_path(path)}'?")
           if res
             require 'apprepo/setup'
-            v = options[:app].latest_version
+            # TODO: Fetch version from IPA or else
+            v = options[:app_version].latest_version
             AppRepo::Setup.new.generate_metadata_files(v, path)
           else
             return 0

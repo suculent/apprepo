@@ -37,20 +37,15 @@ module AppRepo
 
   appcode = 'ruby-test'
 
-  # Test Setup (Repofile)
-  UI.message('[AppRepoTest] Setup.new')
-  setup = AppRepo::Setup.new()
-  setup.run(Options)
-
   # Setup descriptor (appcode, ipa, metadata - from repofile)!
   UI.message('[AppRepoTest] UploadDescriptor.new')
   uploadDescriptor = UploadDescriptor.new(appcode) # not used yet  
   uploadDescriptor.appcode = appcode  
 
-  # Test Uploader (Core)  
-  UI.message('[AppRepoTest] Uploader.new')
-  upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
-  upload.run(Options)
+  # Test Uploader (OK)
+  #UI.message('[AppRepoTest] Uploader.new')
+  #upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
+  #upload.run
 
   UI.message('[AppRepoTest] AppRepo::CommandsGenerator.new.run')
   CommandsGenerator.new.run  

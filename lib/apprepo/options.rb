@@ -4,11 +4,6 @@ module AppRepo
   class Options
     def self.available_options
       [
-        FastlaneCore::ConfigItem.new(key: :app,
-                                     short_option: '-p',
-                                     env_name: 'APPREPO_APP_ID',
-                                     description: 'The app ID of the app you want to use/modify',
-                                     is_string: false), # don't add any verification here, as it's used to store a spaceship ref
         FastlaneCore::ConfigItem.new(key: :ipa,
                                      short_option: '-i',
                                      optional: true,
@@ -25,7 +20,7 @@ module AppRepo
                                      end),
         FastlaneCore::ConfigItem.new(key: :app_identifier,
                                      short_option: '-b',
-                                     optional: true,
+                                     optional: false,
                                      env_name: 'APPREPO_APP_ID',
                                      description: 'Your bundle identifier',
                                      default_value: ""),
@@ -72,6 +67,10 @@ module AppRepo
                                      optional: true),
         FastlaneCore::ConfigItem.new(key: :skip_metadata,
                                      description: "Don't upload the metadata (e.g. title, description), this will still upload screenshots",
+                                     is_string: false,
+                                     default_value: false),
+        FastlaneCore::ConfigItem.new(key: :notify,
+                                     description: "Notify AppRepo users on update",
                                      is_string: false,
                                      default_value: false),
         FastlaneCore::ConfigItem.new(key: :build_number,

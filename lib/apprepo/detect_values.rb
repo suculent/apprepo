@@ -21,14 +21,16 @@ module AppRepo
 
     def find_folders(options)
       containing = Helper.fastlane_enabled? ? './fastlane' : '.'      
+      if options[:metadata_path] != nil
       puts "Containing: '"+options[:metadata_path]+"' folder for TODO RENAME example_manifest.json"
       options[:metadata_path] ||= File.join(containing, '/../manifest.json')
       puts "Options: '"+options[:metadata_path]+"'"
       FileUtils.mkdir_p(options[:metadata_path])
     end
+    end
 
     def find_version(options)
-      if options.include?(:ipa)
+      if options[:ipa] != nil
         options[:app_version] ||= FastlaneCore::IpaFileAnalyser.fetch_app_version(options[:ipa])
       end
     end

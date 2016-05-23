@@ -35,7 +35,7 @@ module AppRepo
     # If not, the new version will automatically be created
     def verify_version
       app_version = options[:app_version]
-      UI.message("Making sure the latest version on iTunes Connect matches '#{app_version}' from the ipa file...")
+      UI.message("TODO: Make sure the latest version on AppRepo matches '#{app_version}' from the ipa file...")
 
       #changed = options[:app].ensure_version!(app_version)
       #if changed
@@ -54,11 +54,12 @@ module AppRepo
     def upload_binary
       UI.message('Uploading binary to iTunes Connect')
       if options[:ipa]
-        package_path = FastlaneCore::IpaUploadPackageBuilder.new.generate(
-          app_id: options[:app].apple_id,
-          ipa_path: options[:ipa],
-          package_path: '/tmp'
-        )
+        #package_path = FastlaneCore::IpaUploadPackageBuilder.new.generate(
+        #  app_id: options[:app].apple_id,
+        #  ipa_path: options[:ipa],
+        #  package_path: '/tmp'
+        puts "TODO: Build package path without IpaUploadPackageBuilder"
+        
       end
 
       #transporter = FastlaneCore::ItunesTransporter.new(options[:username])
