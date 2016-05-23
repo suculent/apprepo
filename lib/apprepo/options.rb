@@ -46,7 +46,7 @@ module AppRepo
                                      description: 'RSA key for your Apprepo server'),
         FastlaneCore::ConfigItem.new(key: :repo_description,
                                      short_option: '-d',
-                                     optional: false,
+                                     optional: true,
                                      env_name: 'APPREPO_DESCRIPTION',
                                      description: 'Long description for your Apprepo server'),
         FastlaneCore::ConfigItem.new(key: :metadata_path,

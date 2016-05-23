@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   # fastlane dependencies
 
   spec.add_dependency 'fastlane', '~> 0', '< 2.0.0' # all shared code and dependencies
+  spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 0'
   spec.add_dependency 'net-sftp', '~> 0'
 
