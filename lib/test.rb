@@ -33,7 +33,7 @@ module AppRepo
       self.password = 'circle'
       self.rsa_keypath = '../assets/circle.key'
       self.ipa_path = '../sampleapp.ipa'
-      self.manifest_path = '../assets/manifest.json'
+      self.manifest_path = '../assets/example_manifest.json'
       self.appcode = 'APPREPO'
       #self.options = options
       #AppRepo::Test.new.run!
@@ -41,37 +41,73 @@ module AppRepo
     end
 
     # upload an ipa and manifest file or directory to the remote host
-    def ssh_sftp_upload(ssh, ipa_path, manifest_path)  
+    def ssh_sftp_upload(ssh, local_ipa_path, manifest_path)  
       ssh.sftp.connect do |sftp|
 
-        if File.exist?(ipa_path) 
-          # OK
+        ipa_name = File.basename(local_ipa_path)
+
+        if File.exist?(local_ipa_path) 
+          Fastlane::UI.message("Local IPA found at "+local_ipa_path)
         else
           Fastlane::UI.message("IPA at given path does not exist!")
           return
         end
 
-        remote_path = get_remote_path + File.basename(ipa_path)
+        remote_path = get_remote_path() + self.appcode
         Fastlane::UI.message("Checking APPCODE at: "+ remote_path )
+
         remote_mkdir(sftp, remote_path)
 
-        ipa_remote = remote_ipa_path(ipa_path)
-        Fastlane::UI.message("Uploading IPA: "+ipa_path+" to path "+ipa_remote)
-        sftp.upload!(File.dirname(__FILE__) + '/' + ipa_path, ipa_remote)
+        remote_ipa_path = get_remote_ipa_path(local_ipa_path)        
+        Fastlane::UI.message("Checking remote IPA.")
+        begin
+          sftp.stat!(remote_ipa_path) do |response|
+            if response.ok?
+              Fastlane::UI.message("Removing existing IPA...")
+              sftp.remove!(remote_ipa_path)            
+            end
+          end
+        rescue
+          Fastlane::UI.message("No previous IPA found.")
+        end
 
-        remote_manifest_path = get_remote_path + 'manifest.json'
-        Fastlane::UI.message("Uploading Manifest: "+manifest_path+" to path "+remote_manifest_path)
+        Fastlane::UI.message("Will upload IPA...")
+        
+        path = File.dirname(__FILE__) + '/' + local_ipa_path
+        Fastlane::UI.message("Uploading IPA: " + path + " to path " + remote_ipa_path)
+        sftp.upload!(path, remote_ipa_path)
+
+        remote_manifest_path = remote_path + 'manifest.json'
+
+        Fastlane::UI.message("Checking remote Manifest.")
+        sftp.stat!(remote_manifest_path) do |response|
+          if response.ok?
+            Fastlane::UI.message("Reading existing Manifest.")
+            sftp.file.open(remote_manifest_path, 'w') do |f|
+              UI.message("opened file from sftp")
+            end
+          else
+            Fastlane::UI.message("No previous Manifest found.")
+          end        
+        end
+        
+        Fastlane::UI.message("Uploading Manifest: " + manifest_path + " to path " + remote_manifest_path)
         sftp.upload!(manifest_path, remote_manifest_path)
 
         # dir check, only for testing
-        result = ssh.exec!('ls')
+        result = ssh.exec!('cd '+remote_path)
         Fastlane::UI.message(result)
+
+        # list the entries in a directory
+        sftp.dir.foreach('.') do |entry|
+          Fastlane::UI.message(entry.longname)
+        end        
       end
     end
 
     def remote_mkdir(sftp, remote_path)
        begin
-          sftp.mkdir remote_path
+          sftp.mkdir remote_path          
         rescue Net::SFTP::StatusException => e
           if e.code == 11
             Fastlane::UI.message('Remote directory' + remote_path + ' already exists. OK...')
@@ -91,27 +127,17 @@ module AppRepo
       end
     end
 
-    def remote_ipa_path(ipa_path)
-      path = get_remote_path() + appcode + '/' + File.basename(ipa_path)
+    def get_remote_ipa_path(ipa_path)
+      path = get_remote_path() + self.appcode + '/' + File.basename(ipa_path)
       Fastlane::UI.message("remote_ipa_path: " + path)
       return path
     end
 
-    def get_remote_path
+    def get_remote_path()
       path = '/home/' + user + '/repo/apps/'
       Fastlane::UI.message("get_remote_path: " + path)
       return path
     end
-
-    # open and write to a pseudo-IO for a remote file
-    #sftp.file.open(remote, 'w') do |f|
-    #  UI.message("opened file from sftp")
-    #end
-
-    # list the entries in a directory
-    #sftp.dir.foreach('.') do |entry|
-    #  puts entry.longname
-    #end
 
     def run
       # Login & Upload IPA with metadata using RSA key or username/password
