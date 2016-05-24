@@ -7,7 +7,7 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "[[APP_IDENTIFIER]]"
-ipa "[[APP_IDENTIFIER]]"
+ipa "[[APPREPO_IPA_PATH]]"
 app_version "[[APP_VERSION]]"
 meta_title "[[APP_NAME]]"
 
