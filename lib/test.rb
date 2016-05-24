@@ -53,10 +53,14 @@ module AppRepo
           return
         end
 
+        # Check/create remote directories
+
         remote_path = get_remote_path() + self.appcode
         Fastlane::UI.message("Checking APPCODE at: "+ remote_path )
 
         remote_mkdir(sftp, remote_path)
+
+        # Check/delete remote (rename from metadata later) IPA
 
         remote_ipa_path = get_remote_ipa_path(local_ipa_path)        
         Fastlane::UI.message("Checking remote IPA.")
@@ -77,29 +81,27 @@ module AppRepo
         Fastlane::UI.message("Uploading IPA: " + path + " to path " + remote_ipa_path)
         sftp.upload!(path, remote_ipa_path)
 
-        remote_manifest_path = remote_path + 'manifest.json'
+        remote_manifest_path = remote_path + '/manifest.json'
 
         Fastlane::UI.message("Checking remote Manifest.")
-        sftp.stat!(remote_manifest_path) do |response|
-          if response.ok?
-            Fastlane::UI.message("Reading existing Manifest.")
-            sftp.file.open(remote_manifest_path, 'w') do |f|
-              UI.message("opened file from sftp")
+        begin
+          sftp.stat!(remote_manifest_path) do |response|
+            if response.ok?
+              Fastlane::UI.message("Reading existing Manifest.")
+              sftp.file.open(remote_manifest_path, 'w') do |f|
+                UI.message("opened file from sftp")
+              end      
             end
-          else
-            Fastlane::UI.message("No previous Manifest found.")
-          end        
-        end
+          end
+        rescue
+          Fastlane::UI.message("No previous Manifest found.")
+        end  
         
         Fastlane::UI.message("Uploading Manifest: " + manifest_path + " to path " + remote_manifest_path)
         sftp.upload!(manifest_path, remote_manifest_path)
 
-        # dir check, only for testing
-        result = ssh.exec!('cd '+remote_path)
-        Fastlane::UI.message(result)
-
-        # list the entries in a directory
-        sftp.dir.foreach('.') do |entry|
+        # list the entries in a directory for verification
+        sftp.dir.foreach(remote_path) do |entry|
           Fastlane::UI.message(entry.longname)
         end        
       end
