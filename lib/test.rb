@@ -43,7 +43,34 @@ module AppRepo
     # upload an ipa and manifest file or directory to the remote host
     def ssh_sftp_upload(ssh, ipa_path, manifest_path)  
       ssh.sftp.connect do |sftp|
-        begin
+
+        if File.exist?(ipa_path) 
+          # OK
+        else
+          Fastlane::UI.message("IPA at given path does not exist!")
+          return
+        end
+
+        remote_path = get_remote_path + File.basename(ipa_path)
+        Fastlane::UI.message("Checking APPCODE at: "+ remote_path )
+        remote_mkdir(sftp, remote_path)
+
+        ipa_remote = remote_ipa_path(ipa_path)
+        Fastlane::UI.message("Uploading IPA: "+ipa_path+" to path "+ipa_remote)
+        sftp.upload!(File.dirname(__FILE__) + '/' + ipa_path, ipa_remote)
+
+        remote_manifest_path = get_remote_path + 'manifest.json'
+        Fastlane::UI.message("Uploading Manifest: "+manifest_path+" to path "+remote_manifest_path)
+        sftp.upload!(manifest_path, remote_manifest_path)
+
+        # dir check, only for testing
+        result = ssh.exec!('ls')
+        Fastlane::UI.message(result)
+      end
+    end
+
+    def remote_mkdir(sftp, remote_path)
+       begin
           sftp.mkdir remote_path
         rescue Net::SFTP::StatusException => e
           if e.code == 11
@@ -52,31 +79,27 @@ module AppRepo
             raise
           end
         end
-        ipa_remote = remote_ipa_path(ipa_path)
-        Fastlane::UI.message("Uploading IPA: "+ipa_remote)
-        sftp.upload!(ipa_path, ipa_remote)
-        sftp.upload!(manifest_path, remote_path + 'manifest.json')
-        result = ssh.exec!('ls')
-        Fastlane::UI.message(result)
-      end
     end
 
     def load_rsa_key(rsa_keypath)
       File.open(File.dirname(__FILE__) + '/' + rsa_keypath, 'r') do |file|
         rsa_key = [file.read]
+        if rsa_key != nil 
+          Fastlane::UI.message("Successfully loaded RSA key...")
+        end
         return rsa_key
       end
     end
 
     def remote_ipa_path(ipa_path)
-      path = remote_path + appcode + '/' + File.basename(ipa_path)
+      path = get_remote_path() + appcode + '/' + File.basename(ipa_path)
       Fastlane::UI.message("remote_ipa_path: " + path)
       return path
     end
 
-    def remote_path
+    def get_remote_path
       path = '/home/' + user + '/repo/apps/'
-      Fastlane::UI.message("remote_ipa: " + path)
+      Fastlane::UI.message("get_remote_path: " + path)
       return path
     end
 
@@ -92,17 +115,19 @@ module AppRepo
 
     def run
       # Login & Upload IPA with metadata using RSA key or username/password
-      rsa_key = load_rsa_key(self.rsa_keypath)
+      rsa_key = nil # load_rsa_key(self.rsa_keypath)
       if rsa_key != nil
-        Fastlane::UI.message("Logging in with RSA key " + rsa_keypath)
-        Net::SSH.start( host, user, :key_data => rsa_key, :keys_only => true) do |ssh|
-          ssh_sftp_upload(ssh, ipa_path, manifest_path)
+        Fastlane::UI.message("Logging in with RSA key " + self.rsa_keypath)
+        Net::SSH.start( self.host, self.user, :key_data => rsa_key, :keys_only => true) do |ssh|
+          Fastlane::UI.message("Logged in, uploading UPA & Manifest...")
+          ssh_sftp_upload(ssh, self.ipa_path, self.manifest_path)
         end
       else
         # Login with 
-        Fastlane::UI.message("Logging in with username " + username + " and password *****...")
-        Net::SSH.start(host, user, password: password) do |ssh|
-          ssh_sftp_upload(ssh, ipa_path, manifest_path)
+        Fastlane::UI.message("Logging in with username " + self.user + " and password *****...")
+        Net::SSH.start(self.host, self.user, password: self.password) do |ssh|
+          Fastlane::UI.message("Logged in, uploading UPA & Manifest...")
+          ssh_sftp_upload(ssh, self.ipa_path, self.manifest_path)
         end
       end
     end
