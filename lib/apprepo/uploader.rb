@@ -1,128 +1,159 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'net/ssh'
 require 'net/sftp'
 require 'fastlane_core/languages'
 require_relative 'upload_descriptor'
 
+require 'fastlane'
+require 'fastlane_core'
+
+require_relative 'options'
+
 module AppRepo
   class Uploader
+    attr_accessor :options
+
+    #
+    # These want to be an input parameters:
+    #
 
     attr_accessor :host
-    attr_accessor :login
-    attr_accessor :keypath
+    attr_accessor :user
+    attr_accessor :password
+    attr_accessor :rsa_keypath
+    attr_accessor :ipa_path
+    attr_accessor :manifest_path
     attr_accessor :appcode
-    attr_accessor :upload_descriptor
 
-    attr_accessor :ipa
-  
+    def initialize
+      Fastlane::UI.message('[AppRepo:Test] Initializing...')
+      self.host = 'repo.teacloud.net'
+      self.user = 'circle'
+      self.password = 'circle'
+      self.rsa_keypath = '../assets/circle.key'
+      self.ipa_path = '../sampleapp.ipa'
+      self.manifest_path = '../assets/example_manifest.json'
+      self.appcode = 'APPREPO'
+      # self.options = options
+      # AppRepo::Test.new.run!
+      # FastlaneCore::PrintTable.print_values(config: nil , hide_keys: [:app], mask_keys: ['app_review_information.demo_password'], title: "deliver #{AppRepo::VERSION} Summary") # options
+    end
 
-    def initialize(host, login, keypath, appcode)
-      self.host = host
-      self.login = login
-      self.keypath = keypath
-      self.appcode = appcode
+    # upload an ipa and manifest file or directory to the remote host
+    def ssh_sftp_upload(ssh, local_ipa_path, manifest_path)
+      ssh.sftp.connect do |sftp|
+        ipa_name = File.basename(local_ipa_path)
 
-      UI.message('[AppRepo:Uploader] Initializing...')
+        if File.exist?(local_ipa_path)
+          Fastlane::UI.message('Local IPA found at ' + local_ipa_path)
+        else
+          Fastlane::UI.message('IPA at given path does not exist!')
+          return
+        end
 
+        # Check/create remote directories
 
-      path = File.dirname(__FILE__)+'/../../*.ipa'
-      puts path
+        remote_path = get_remote_path + appcode
+        Fastlane::UI.message('Checking APPCODE at: ' + remote_path)
 
-      self.ipa = Dir.glob(path).last
-      puts ipa
+        remote_mkdir(sftp, remote_path)
 
-      
-      UI.message('[DEBUG]:' + self.host + ' | ' + self.login + ' | ' + self.keypath + ' | ' + self.appcode )
+        # Check/delete remote (rename from metadata later) IPA
+
+        remote_ipa_path = get_remote_ipa_path(local_ipa_path)
+        Fastlane::UI.message('Checking remote IPA.')
+        begin
+          sftp.stat!(remote_ipa_path) do |response|
+            if response.ok?
+              Fastlane::UI.message('Removing existing IPA...')
+              sftp.remove!(remote_ipa_path)
+            end
+          end
+        rescue
+          Fastlane::UI.message('No previous IPA found.')
+        end
+
+        Fastlane::UI.message('Will upload IPA...')
+
+        path = File.dirname(__FILE__) + '/' + local_ipa_path
+        Fastlane::UI.message('Uploading IPA: ' + path + ' to path ' + remote_ipa_path)
+        sftp.upload!(path, remote_ipa_path)
+
+        remote_manifest_path = remote_path + '/manifest.json'
+
+        Fastlane::UI.message('Checking remote Manifest.')
+        begin
+          sftp.stat!(remote_manifest_path) do |response|
+            if response.ok?
+              Fastlane::UI.message('Reading existing Manifest.')
+              sftp.file.open(remote_manifest_path, 'w') do |_f|
+                UI.message('opened file from sftp')
+              end
+            end
+          end
+        rescue
+          Fastlane::UI.message('No previous Manifest found.')
+        end
+
+        Fastlane::UI.message('Uploading Manifest: ' + manifest_path + ' to path ' + remote_manifest_path)
+        sftp.upload!(manifest_path, remote_manifest_path)
+
+        # list the entries in a directory for verification
+        sftp.dir.foreach(remote_path) do |entry|
+          Fastlane::UI.message(entry.longname)
+        end
+      end
+    end
+
+    def remote_mkdir(sftp, remote_path)
+      sftp.mkdir remote_path
+    rescue Net::SFTP::StatusException => e
+      if e.code == 11
+        Fastlane::UI.message('Remote directory' + remote_path + ' already exists. OK...')
+      else
+        raise
+      end
+    end
+
+    def load_rsa_key(rsa_keypath)
+      File.open(File.dirname(__FILE__) + '/' + rsa_keypath, 'r') do |file|
+        rsa_key = [file.read]
+        Fastlane::UI.message('Successfully loaded RSA key...') unless rsa_key.nil?
+        return rsa_key
+      end
+    end
+
+    def get_remote_ipa_path(ipa_path)
+      path = get_remote_path + appcode + '/' + File.basename(ipa_path)
+      Fastlane::UI.message('remote_ipa_path: ' + path)
+      path
+    end
+
+    def get_remote_path
+      path = '/home/' + user + '/repo/apps/'
+      Fastlane::UI.message('get_remote_path: ' + path)
+      path
     end
 
     def run
-
-      if !appcode 
-        UI.user_error('APPCODE value missing.')
-        exit 0
-      end
-
-      if !ipa
-        UI.user_error('IPA value missing.')
-        exit 0
-      end
-
-      File.open(keypath, 'r') do |file|
-        UI.message('[AppRepo:Uploader] reading private key...')
-
-        rsa_key = [file.read]
-
-        UI.message('[AppRepo:Uploader] starting SSH connection...')
-
-        Net::SSH.start(host, login, password: 'circle') do |ssh|
-          # Net::SSH.start( self.host, self.login, :key_data => rsa_key, :keys_only => true) do |ssh|
-
-          UI.message('[AppRepo:Uploader] logging to AppRepo...')
-
-          ssh.sftp.connect do |sftp|
-
-            UI.message('[AppRepo:Uploader] AppRepo successfully connected...')
-
-            UI.message('[AppRepo:Uploader] TODO: Traverse to correct "APPCODE" folder...')
-
-            result = ssh.exec!('cd repo/apps/' + self.appcode + '; ls')
-            UI.message(result)
-
-            UI.message('Will try to upload ' + self.ipa )
-
-            # upload a file or directory to the remote host
-            sftp.upload!( self.ipa , '/home/circle/repo/test.data')
-
-            result = ssh.exec!('ls')
-
-            UI.message(result)
-
-            remote = '/home/circle/repo/test.data'
-            local = '/Users/sychram/test.data.from-remote'
-
-            # download a file or directory from the remote host
-            sftp.download!(remote, local)
-
-            # grab data off the remote host directly to a buffer
-            data = sftp.download!(remote)
-
-            # open and write to a pseudo-IO for a remote file
-            sftp.file.open(remote, 'w') do |f|
-              f.puts "Hello, world!\n"
-            end
-
-            # open and read from a pseudo-IO for a remote file
-            sftp.file.open(remote, 'r') do |f|
-              puts f.gets
-            end
-
-            directory = '/home/circle/ruby-test'
-
-            # safely make a directory
-            begin
-            sftp.mkdir directory
-          rescue Net::SFTP::StatusException => e
-            # verify if this returns 11. Your server may return
-            # something different like 4.
-            if e.code == 11
-              # warning?
-              UI.user_error('directory already exists. Carry on...')
-              sftp.rmdir!('/home/circle/ruby-test')
-            else
-              raise
-            end
-
-          end
-
-            # list the entries in a directory
-            sftp.dir.foreach('.') do |entry|
-              puts entry.longname
-            end
-          end
+      # Login & Upload IPA with metadata using RSA key or username/password
+      rsa_key = nil # load_rsa_key(self.rsa_keypath)
+      if !rsa_key.nil?
+        Fastlane::UI.message('Logging in with RSA key ' + rsa_keypath)
+        Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
+          Fastlane::UI.message('Logged in, uploading UPA & Manifest...')
+          ssh_sftp_upload(ssh, ipa_path, manifest_path)
+        end
+      else
+        #  Login with
+        Fastlane::UI.message('Logging in with username ' + user + ' and password *****...')
+        Net::SSH.start(host, user, password: password) do |ssh|
+          Fastlane::UI.message('Logged in, uploading UPA & Manifest...')
+          ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       end
-end
-
-    # upload = new AppRepo:Upload('repo.teacloud.net', 'circle', '/Users/sychram/.ssh/REPOKey.pem')
+    end
   end
 end

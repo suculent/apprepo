@@ -7,7 +7,7 @@ module AppRepo
       UI.user_error!("Could not find a version to edit for app '#{app.name}'") unless v
 
       if options[:app_icon]
-         UI.message('Uploading app icon...')
+        UI.message('Uploading app icon...')
         v.upload_large_icon!(options[:app_icon])
       end
 

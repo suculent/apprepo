@@ -1,6 +1,5 @@
 module AppRepo
   class Setup
-
     def setup_apprepo(file_path, data, _apprepo_path, _options)
       UI.message('[AppRepo:Setup] Setting up...')
       File.write(file_path, data)
@@ -13,18 +12,18 @@ module AppRepo
 
     # This method takes care of creating a new 'apprepo' folder, containg the app metadata
     # and screenshots folders
-    def generate_apprepo_file(apprepo_path, options)
+    def generate_apprepo_file(_apprepo_path, options)
       #
-      #v = options[:app].latest_version
-      #generate_metadata_files(v, File.join(apprepo_path, 'metadata'))
+      # v = options[:app].latest_version
+      # generate_metadata_files(v, File.join(apprepo_path, 'metadata'))
 
       # Generate the final Repofile here
       gem_path = Helper.gem_path('apprepo')
       apprepo = File.read("#{gem_path}/../assets/RepofileDefault")
-      apprepo.gsub!("[[APP_IDENTIFIER]]", options[:app].bundle_id)
-      apprepo.gsub!("[[APPREPO_IPA_PATH]]", options[:app].file_path)
-      apprepo.gsub!("[[APP_VERSION]]", options[:app].version)
-      apprepo.gsub!("[[APP_NAME]]", options[:app].name)
+      apprepo.gsub!('[[APP_IDENTIFIER]]', options[:app].bundle_id)
+      apprepo.gsub!('[[APPREPO_IPA_PATH]]', options[:app].file_path)
+      apprepo.gsub!('[[APP_VERSION]]', options[:app].version)
+      apprepo.gsub!('[[APP_NAME]]', options[:app].name)
       UI.user_error("TODO: ADJUST Repofile'")
       # deliver => apprepo??
     end

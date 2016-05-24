@@ -39,7 +39,6 @@ module AppRepo
           unless loaded
             if UI.confirm('No AppRepo configuration found in the current directory. Do you want to setup apprepo?')
               require 'apprepo/setup'
-              # AppRepo::Runner.new(options) # to login...
               AppRepo::Setup.new.run(options)
               return 0
             end
@@ -89,7 +88,7 @@ module AppRepo
           res ||= UI.confirm("Do you want to overwrite existing metadata on path '#{File.expand_path(path)}'?")
           if res
             require 'apprepo/setup'
-            # TODO: Fetch version from IPA or else
+            #  TODO: Fetch version from IPA or else
             v = options[:app_version].latest_version
             AppRepo::Setup.new.generate_metadata_files(v, path)
           else

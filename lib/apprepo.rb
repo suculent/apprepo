@@ -39,15 +39,14 @@ module AppRepo
 
   # Setup descriptor (appcode, ipa, metadata - from repofile)!
   UI.message('[AppRepoTest] UploadDescriptor.new')
-  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet  
-  uploadDescriptor.appcode = appcode  
+  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet
+  uploadDescriptor.appcode = appcode
 
   # Test Uploader (OK)
-  #UI.message('[AppRepoTest] Uploader.new')
-  #upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
-  #upload.run
+  # UI.message('[AppRepoTest] Uploader.new')
+  # upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
+  # upload.run
 
   UI.message('[AppRepoTest] AppRepo::CommandsGenerator.new.run')
-  CommandsGenerator.new.run  
-
+  CommandsGenerator.new.run
 end
