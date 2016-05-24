@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 0'
   spec.add_dependency 'net-sftp', '~> 0'
+  spec.add_dependency 'json', '= 1.8.1' # required by fastlane
 
   # third party dependencies
   spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the icons
