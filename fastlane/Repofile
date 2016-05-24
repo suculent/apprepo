@@ -6,10 +6,12 @@
 ###################### Automatically generated ######################
 # Feel free to remove the following line if you use fastlane (which you should)
 
-app_identifier "[[APP_IDENTIFIER]]"
-ipa "[[APPREPO_IPA_PATH]]"
-app_version "[[APP_VERSION]]"
-meta_title "[[APP_NAME]]"
+app_identifier "com.apprepo.test"
+ipa "sampleapp.ipa"
+#ipa File.dirname(__FILE__)+"/../sampleapp.ipa"
+app_version "1.0"
+meta_title "TestApp"
+repo_description "Some description is required for AppRepo users to know, that is this app."
 
 #
 # Authentication
