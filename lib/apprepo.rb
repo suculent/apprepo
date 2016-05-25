@@ -34,4 +34,6 @@ module AppRepo
 
   Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
+
+  CommandsGenerator.new.run
 end

@@ -6,18 +6,18 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "com.apprepo.test" # your app's bundle identifier
-ipa "./sampleapp.ipa"
-manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
+ipa "sampleapp.ipa" # File.dirname(__FILE__) + "/../sampleapp.ipa"
+manifest_path "manifest.json" # Path to the manifest.json you want to use. 
 
 #
 # Authentication
 #
 
-# You can use your '~/.ssh/config' file to setup RSA keys to AppRepo, or use following options:
+# You can use your '~/.ssh/config' file to setup RSA keys to AppRepo, or use environment variables.
 
 repo_url "repo.teacloud.net"
 repo_user "circle"
-repo_key "./lib/assets/circle.key" # should have 'chmod 600' and reside in '~/.ssh’ or it might be rejected by SSL
+repo_key "/Users/sychram/.ssh/circle.key" # should have 'chmod 600' and reside in '~/.ssh' or it might be rejected by SSL
 
 notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
@@ -25,7 +25,7 @@ notify true # Add this to automatically notify the AppRepo users after uploading
 
 app_version "0.1"
 app_icon "./assets/apprepo.png"
-
+appcode "APPREPO"
 repo_title "TestApp"
 repo_description "Some description is required for AppRepo users to know, that is this app."
 repo_summary "Experimental Fastlane Extension"
