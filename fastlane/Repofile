@@ -17,7 +17,7 @@ manifest_path "./manifest.json" # Path to the manifest.json you want to use.
 
 repo_url "repo.teacloud.net"
 repo_user "circle"
-repo_key "./lib/assets/circle.key" # should have 'chmod 600' and reside in '~/.ssh’ or it might be rejected by SSL
+repo_key "./lib/assets/circle.key" # should have 'chmod 600' and reside in '~/.ssh' or it might be rejected by SSL
 
 notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
