@@ -21,8 +21,6 @@ module AppRepo
     # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Style/GlobalVars
     def run
-      puts '[AppRepo::CommandsGenerator] run'
-
       program :version, AppRepo::VERSION
       program :description, AppRepo::DESCRIPTION
       program :help, 'Author', 'Matej Sychra <suculent@me.com>'

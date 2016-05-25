@@ -6,7 +6,6 @@ module AppRepo
     attr_accessor :options
 
     def initialize(options)
-      UI.message('[AppRepo:Runner] Initializing...')
       self.options = options
       AppRepo::DetectValues.new.run!(self.options)
       # FastlaneCore::PrintTable.print_values(config: options,
@@ -17,15 +16,13 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     def run
-      UI.success('[AppRepo:Runner] Running!')
+      UI.success('AppRepo SFTP Uploader running...')
       verify_version unless options[:app_version].to_s.empty?
       upload_metadata
-
       has_binary = options[:ipa]
       if !options[:skip_binary_upload] && !options[:build_number] && has_binary
         upload_binary
       end
-
       UI.success('Finished the upload to AppRepo.')
       notify unless options[:notify].nil?
     end
@@ -52,7 +49,6 @@ module AppRepo
 
     # Upload the binary to AppRepo
     def upload_binary
-      UI.message('Uploading binary to AppRepo')
       if options[:ipa]
         uploader = AppRepo::Uploader.new(options)
         result = uploader.upload
@@ -63,6 +59,7 @@ module AppRepo
 
     def notify
       # should be in metadata
+      UI.user_error!('TODO: Missing implementation for AppRepo Push Notifier')
     end
   end
 end

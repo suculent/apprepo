@@ -33,7 +33,7 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def initialize(options)
-      FastlaneCore::UI.message('Initializing options...')
+      self.options = options unless options.nil?
       self.host = options[:repo_url] # 'repo.teacloud.net'
       self.user = options[:repo_user]
       self.password = options[:repo_password]
@@ -41,8 +41,6 @@ module AppRepo
       self.ipa_path = options[:ipa] # '../sampleapp.ipa'
       self.manifest_path = options[:manifest_path] # '../assets/example_manifest.json'
       self.appcode = options[:appcode]
-
-      self.options = options unless options.nil?
 
       # AppRepo::Uploader.new.run!
       # FastlaneCore::PrintTable.print_values(config: nil , hide_keys: [:app],
@@ -109,23 +107,23 @@ module AppRepo
         break unless check_ipa(local_ipa_path)
         FastlaneCore::UI.message('[Downloading] Will start...')
         manifest = download_manifest(sftp)
-        puts manifest.join(',')
+        puts '********************************************************'
+        puts JSON.pretty_generate(manifest)
+        puts '********************************************************'
       end
     end
 
     def ssh_sftp_upload(ssh, local_ipa_path, manifest_path)
       ssh.sftp.connect do |sftp|
         break unless check_ipa(local_ipa_path)
-        check_appcode(sftp, appcode)
-        path = remote_path(appcode)
-        manifest = download_manifest(sftp)
+        check_appcode(sftp, appcode)        
+        path = remote_path(appcode)        
+        manifest = download_manifest(sftp)        
+        puts JSON.pretty_generate(manifest) unless manifest == nil
         bump_ipa(sftp, local_ipa_path, appcode)
         remote_ipa_path = get_remote_ipa_path(local_ipa_path, appcode)
-
-        FastlaneCore::UI.message('[Uploading] Will start...')
         upload_ipa(sftp, local_ipa_path, remote_ipa_path)
         upload_manifest(sftp, manifest_path, remote_manifest_path(appcode))
-
         # Lists the entries in a directory for verification
         sftp.dir.foreach(path) do |entry|
           FastlaneCore::UI.message(entry.longname)
@@ -138,7 +136,7 @@ module AppRepo
     # @param local_ipa_path
     def check_ipa(local_ipa_path)
       if File.exist?(local_ipa_path)
-        FastlaneCore::UI.command('IPA found at ' + local_ipa_path)
+        FastlaneCore::UI.important('IPA found at ' + local_ipa_path)
         return true
       else
         FastlaneCore::UI.verbose('IPA at given path does not exist yet.')
@@ -167,13 +165,16 @@ module AppRepo
       begin
         sftp.stat!(remote) do |response|
           if response.ok?
-            FastlaneCore::UI.message('Bumping existing IPA')
             begin
-              sftp.remove(remote + '.bak') # may fail if not existent
-              FastlaneCore::UI.message('Removed ' + remote + '.bak')
+            sftp.rename!(remote, remote + '.bak')
             rescue
-              sftp.rename!(remote, remote + '.bak')
-              FastlaneCore::UI.message('Bumped to ' + remote + '.bak')
+              begin
+                sftp.remove(remote + '.bak') # may fail if not existent
+                FastlaneCore::UI.message('Removed ' + remote + '.bak')
+              rescue
+                sftp.rename!(remote, remote + '.bak')
+                FastlaneCore::UI.message('Bumped to ' + remote + '.bak')
+              end
             end
           end
         end
@@ -184,25 +185,19 @@ module AppRepo
 
     # Downloads remote manifest, self.appcode required by options.
     #
-    # @params sftp
-    # @params [String] remote_path
+    # @param sftp
+    # @param [String] remote_path
+    # @returns [JSON] json or nil
     def download_manifest(sftp)
       FastlaneCore::UI.message('Checking remote Manifest')      
-      json = ''
+      json = nil
       remote_manifest_path = remote_manifest_path(self.appcode)
       begin
         sftp.stat!(remote_manifest_path) do |response|
           if response.ok?
-            FastlaneCore::UI.message('Reading existing Manifest')
-            sftp.file.open(remote_manifest_path, 'w') do |remote_manifest|
-              FastlaneCore::UI.message('Opened file from sftp')
-              manifest = remote_manifest.gets
-              json = JSON.parse(manifest)
-              puts '********************************************************'
-              puts manifest
-              puts '********************************************************'
-              puts json.to_s
-            end
+            FastlaneCore::UI.success('Loading remote manifest:')
+            manifest = sftp.download!(remote_manifest_path)
+            json = JSON.parse(manifest)
           end
         end
       rescue
@@ -221,11 +216,13 @@ module AppRepo
       FastlaneCore::UI.message(msg)
       result = sftp.upload!(local_ipa_path, remote_ipa_path) do |event, _uploader, *args|
         case event
+        when :open then
+          putc "."
         when :put then
           putc '.'
           $stdout.flush
         when :close then
-          FastlaneCore::UI.message("Finished with #{args[0].remote}")
+          puts "\n"
         when :finish then
           FastlaneCore::UI.success('Upload successful!')
         end
@@ -239,7 +236,13 @@ module AppRepo
     # @param [String] remote_manifest_path
     def upload_manifest(sftp, local_path, remote_path)
       msg = '[Uploading Manifest] ' + local_path + ' to ' + remote_path
-      sftp.upload!(local_path, remote_path)
+      FastlaneCore::UI.message(msg)
+      result = sftp.upload!(local_path, remote_path) do |event, _uploader, *args|
+        case event
+        when :finish then
+          FastlaneCore::UI.success('Upload successful!')
+        end
+      end
     end
 
     def get_remote_ipa_path(local_ipa_path, appcode)
@@ -251,7 +254,7 @@ module AppRepo
     end
 
     def remote_manifest_path(appcode)
-      remote_manifest_path = remote_path(appcode) + '/manifest.json'
+      remote_manifest_path = remote_path(appcode) + 'manifest.json'
     end
 
     def generate_remote_path

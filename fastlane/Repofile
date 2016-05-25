@@ -6,8 +6,8 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "com.apprepo.test" # your app's bundle identifier
-ipa File.dirname(__FILE__) + "../sampleapp.ipa"
-manifest_path File.dirname(__FILE__) + "../manifest.json" # Path to the manifest.json you want to use. 
+ipa "sampleapp.ipa" # File.dirname(__FILE__) + "/../sampleapp.ipa"
+manifest_path "manifest.json" # Path to the manifest.json you want to use. 
 
 #
 # Authentication
