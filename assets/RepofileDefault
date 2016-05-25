@@ -11,7 +11,7 @@
 app_identifier "[[APP_IDENTIFIER]]"
 ipa "[[APPREPO_IPA_PATH]]"
 app_version "[[APP_VERSION]]"
-meta_title "[[APP_NAME]]"
+repo_title "[[APP_NAME]]"
 
 #
 # Authentication
@@ -27,8 +27,8 @@ repo_key "./lib/assets/circle.pub"
 
 # manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
 
-# meta_subtitle "Some application"
+# repo_summary "Some application"
 
-# meta_description "Detailed application description."
+# repo_description "Detailed application description."
 
 # app_icon './AppIcon.png'

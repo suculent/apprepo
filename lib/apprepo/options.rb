@@ -48,15 +48,22 @@ module AppRepo
                                      short_option: '-d',
                                      optional: true,
                                      env_name: 'APPREPO_DESCRIPTION',
-                                     description: 'Long description for your Apprepo server'),
-        FastlaneCore::ConfigItem.new(key: :metadata_path,
+                                     description: 'Long detailed description for your Apprepo server',
+                                     default_value: ''),
+        FastlaneCore::ConfigItem.new(key: :repo_summary,
+                                     short_option: '-s',
+                                     optional: true,
+                                     env_name: 'APPREPO_SUMMARY',
+                                     description: 'Short description for your Apprepo server',
+                                     default_value: ''),
+        FastlaneCore::ConfigItem.new(key: :manifest_path,
                                      short_option: '-m',
                                      description: 'Path to the folder containing the metadata files',
                                      optional: true),
-        FastlaneCore::ConfigItem.new(key: :meta_title,
+        FastlaneCore::ConfigItem.new(key: :repo_title,
                                      short_option: '-a',
                                      description: 'Name of the app',
-                                     optional: true),
+                                     optional: false),
         FastlaneCore::ConfigItem.new(key: :skip_binary_upload,
                                      description: 'Skip uploading an ipa or pkg to iTunes Connect',
                                      is_string: false,
@@ -65,7 +72,7 @@ module AppRepo
                                      short_option: '-z',
                                      description: 'The version that should be edited or created',
                                      optional: true),
-        FastlaneCore::ConfigItem.new(key: :skip_metadata,
+        FastlaneCore::ConfigItem.new(key: :skip_manifest,
                                      description: "Don't upload the metadata (e.g. title, description), this will still upload screenshots",
                                      is_string: false,
                                      default_value: false),
@@ -91,7 +98,7 @@ module AppRepo
                                      verify_block: proc do |value|
                                        UI.user_error!("Could not find png file at path '#{value}'") unless File.exist?(value)
                                        UI.user_error!("'#{value}' doesn't seem to be a png file") unless value.end_with?('.png')
-                                     end)
+                                     end),
       ]
     end
   end

@@ -1,16 +1,16 @@
 module AppRepo
   class DownloadMetadata
     def self.run(options, path)
-      UI.message('Downloading existing metadata.json...')
+      UI.message('TODO: Download existing manifest.json...')
       download(options, path)
-      UI.success('Successfully downloaded all metadata')
+      UI.success('TODO: PROCESS: Successfully downloaded manifest.json...')
     rescue => ex
       UI.error(ex)
-      UI.error("Couldn't download already existing metadata from AppRepo.")
+      UI.error("Couldn't download already existing manifest from AppRepo.")
     end
 
     def self.download(_options, _folder_path)
-      UI.message('TODO: DOWNLOAD existing metadata.json NOT IMPLEMENTED')
+      UI.message('TODO: DOWNLOAD existing manifest.json NOT IMPLEMENTED')
 
       # v = options[:app].latest_version
 

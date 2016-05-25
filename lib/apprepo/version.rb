@@ -1,5 +1,5 @@
 module AppRepo
   VERSION = '0.0.6'.freeze
-  DESCRIPTION = 'Upload icon, metadata and your app to the T-Mobile Enterprise AppRepo and notify users on updaet using a single command'
-  SUMMARY = 'Upload icon, metadata and your app to SFTP'
+  DESCRIPTION = 'Upload icon, manifest.json and your app to the T-Mobile Enterprise AppRepo and notify users on updaet using a single command'
+  SUMMARY = 'Upload icon, manifest and your app to SFTP'
 end

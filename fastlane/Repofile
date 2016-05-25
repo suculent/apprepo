@@ -9,10 +9,7 @@ puts "Loading ./fastlane/Repofile"
 
 app_identifier "com.apprepo.test" # your app's bundle identifier
 ipa "./sampleapp.ipa"
-app_version "0.1"
-meta_title "TestApp"
-repo_description "Some description is required for AppRepo users to know, that is this app."
-repo_summary "Experimental Fastlane Extension"
+manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
 
 #
 # Authentication
@@ -26,7 +23,11 @@ repo_key "./lib/assets/circle.key" # should have ‘chmod 600’ and reside in '
 
 notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
-manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
-meta_subtitle "Some application"
-meta_description "Detailed application description."
-app_icon './assets/apprepo.png'
+# Optionals
+
+app_version "0.1"
+app_icon "./assets/apprepo.png"
+
+repo_title "TestApp"
+repo_description "Some description is required for AppRepo users to know, that is this app."
+repo_summary "Experimental Fastlane Extension"

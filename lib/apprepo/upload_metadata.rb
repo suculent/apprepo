@@ -76,7 +76,7 @@ module AppRepo
       end
 
       # Check folder list (an empty folder signifies a language is required)
-      Dir.glob(File.join(options[:metadata_path], '*')).each do |lng_folder|
+      Dir.glob(File.join(options[:manifest_path], '*')).each do |lng_folder|
         next unless File.directory?(lng_folder) # We don't want to read txt as they are non localised
 
         language = File.basename(lng_folder)
@@ -137,7 +137,7 @@ module AppRepo
       return if options[:skip_metadata]
 
       # Load localised data
-      Loader.language_folders(options[:metadata_path]).each do |lng_folder|
+      Loader.language_folders(options[:manifest_path]).each do |lng_folder|
         language = File.basename(lng_folder)
         (LOCALISED_VERSION_VALUES + LOCALISED_APP_VALUES).each do |key|
           path = File.join(lng_folder, "#{key}.txt")
@@ -151,7 +151,7 @@ module AppRepo
 
       # Load non localised data
       (NON_LOCALISED_VERSION_VALUES + NON_LOCALISED_APP_VALUES).each do |key|
-        path = File.join(options[:metadata_path], "#{key}.txt")
+        path = File.join(options[:manifest_path], "#{key}.txt")
         next unless File.exist?(path)
 
         UI.message("Loading '#{path}'...")

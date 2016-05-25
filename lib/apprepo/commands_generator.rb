@@ -91,7 +91,7 @@ module AppRepo
           options.load_configuration_file('Repofile')
           AppRepo::Runner.new(options) # to login...
           containing = FastlaneCore::Helper.fastlane_enabled? ? './fastlane' : '.'
-          path = options[:metadata_path] || File.join(containing, 'metadata')
+          path = options[:manifest_path] || File.join(containing, 'metadata')
           res = ENV['APPREPO_FORCE_OVERWRITE']
           res ||= UI.confirm("Do you want to overwrite existing metadata on path '#{File.expand_path(path)}'?")
           if res

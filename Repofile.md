@@ -83,25 +83,25 @@ Path to the manifest.json you want to use. The file has to be structured like th
 If you run `apprepo init` this will automatically be created for you.
 
 
-##### meta_title
+##### repo_title
 Application name on the AppRepo.
 
 ```ruby
-meta_title AppRepo
+repo_title AppRepo
 ```
 
-##### meta_subtitle
+##### repo_summary
 Application description (short, one-line, appears in app list)
 
 ```ruby
-meta_subtitle AppRepo
+repo_summary AppRepo
 ```
 
-##### meta_description
+##### repo_description
 Application description (detailed)
 
 ```ruby
-meta_description AppRepo
+repo_description AppRepo
 ```
 
 

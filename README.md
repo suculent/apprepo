@@ -39,9 +39,9 @@ apprepo
 [![Gem](https://img.shields.io/gem/v/apprepo.svg?style=flat)](http://rubygems.org/gems/apprepo)
 [![Build Status](https://img.shields.io/circleci/project/suculent/apprepo.svg?style=flat)](https://circleci.com/gh/suculent/apprepo)
 
-###### Deliver IPAs, icons & metadata to AppRepo (or any other SFTP server) using a single command.
+###### Deliver IPAs, icons & manifest.json to AppRepo (or any other SFTP server) using a single command.
 
-`apprepo` can upload ipa files, app icons and metadata to your Enterprise iOS distribution site from the command line. 
+`apprepo` can upload ipa files, app icons and manifest.json to your Enterprise iOS distribution site from the command line. 
 
 You can vote for Android support as well, Michal.
 
@@ -64,7 +64,7 @@ Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/i
 # Future Features
 - Submit to AppRepo completely automatically
 - Upload a new ipa file to AppRepo without Xcode from any Mac
-- Maintain your app metadata locally and push changes to AppRepo
+- Maintain your app manifest locally and push changes to AppRepo
 - Easily implement a real Continuous Deployment process using [fastlane](https://fastlane.tools)
 - Store the configuration in git to easily deploy from **any** Mac, including your Continuous Integration server
 
@@ -85,9 +85,9 @@ Make sure, you have the latest version of the Xcode command line tools installed
 
 # Quick Start
 
-The guide will create all the necessary files for you, [in future also] using the existing app metadata.json from AppRepo (if any). AppRepo on-premise service has nothing to do with iTunesConnect or AppStore Distribution. Its purpose is solely for Enterprise In-House distribution and can leverage your Apple Developer Account credentials to fetch currently valid applications and their bundle identifiers.
+The guide will create all the necessary files for you, [in future also] using the existing app manifest.json from AppRepo (if any). AppRepo on-premise service has nothing to do with iTunesConnect or AppStore Distribution. Its purpose is solely for Enterprise In-House distribution and can leverage your Apple Developer Account credentials to fetch currently valid applications and their bundle identifiers.
 
-Delivery module for your custom SFTP server (e.g. AppRepo, where it specifically supports custom metadata.json format instead of default plist manifest [future todo]).
+Delivery module for your custom SFTP server (e.g. AppRepo, where it specifically supports custom manifest.json format instead of default plist manifest [future todo]).
 
 - ```cd [your_project_folder]```
 - ```apprepo init```
@@ -95,7 +95,7 @@ Delivery module for your custom SFTP server (e.g. AppRepo, where it specifically
 - Enter your `APPREPO` APPCODE for this application in AppRepo, you can omit this for own SFTP server (or expect it to be a directory at your SFTP home path as we don't want to limit your creativity).
 - Enjoy a good drink, while the computer does all the work for you
 
-From now on, you can run `apprepo` to deploy a new update, or just upload new app metadata and icons.
+From now on, you can run `apprepo` to deploy a new update, or just upload new app manifest.json and icons.
 
 
 # Usage

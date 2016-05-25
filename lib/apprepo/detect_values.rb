@@ -21,11 +21,11 @@ module AppRepo
 
     def find_folders(options)
       containing = Helper.fastlane_enabled? ? './fastlane' : '.'
-      unless options[:metadata_path].nil?
-        puts "Containing: '" + options[:metadata_path] + "' folder for TODO RENAME example_manifest.json"
-        options[:metadata_path] ||= File.join(containing, '/../manifest.json')
-        puts "Options: '" + options[:metadata_path] + "'"
-        FileUtils.mkdir_p(options[:metadata_path])
+      unless options[:manifest_path].nil?
+        puts "Containing: '" + options[:manifest_path] + "' folder for TODO RENAME example_manifest.json"
+        options[:manifest_path] ||= File.join(containing, '/../manifest.json')
+        puts "Options: '" + options[:manifest_path] + "'"
+        FileUtils.mkdir_p(options[:manifest_path])
     end
     end
 
