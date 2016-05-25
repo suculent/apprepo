@@ -2,15 +2,17 @@
 # If you want to have even more control, check out the documentation
 # https://github.com/suculent/apprepo/blob/master/repo/Repofile.md
 
+puts "Loading ./Repofile"
 
 ###################### Automatically generated ######################
 # Feel free to remove the following line if you use fastlane (which you should)
 
-app_identifier "com.apprepo.test"
-ipa File.dirname(__FILE__)+"/sampleapp.ipa"
+app_identifier "com.apprepo.test" # your app's bundle identifier
+ipa "./sampleapp.ipa"
 app_version "0.1"
 meta_title "TestApp"
 repo_description "Some description is required for AppRepo users to know, that is this app."
+repo_summary "Experimental Fastlane Extension"
 
 #
 # Authentication
@@ -20,16 +22,11 @@ repo_description "Some description is required for AppRepo users to know, that i
 
 repo_url "repo.teacloud.net"
 repo_user "circle"
-repo_key "./lib/assets/circle.pub"
+repo_key "./lib/assets/circle.key" # should have ‘chmod 600’ and reside in '~/.ssh’ or it might be rejected by SSL
 
-# app_identifier "" # your app's bundle identifier
+notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
-# notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
-
-# manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
-
-# meta_subtitle "Some application"
-
-# meta_description "Detailed application description."
-
-# app_icon './AppIcon.png'
+manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
+meta_subtitle "Some application"
+meta_description "Detailed application description."
+app_icon './assets/apprepo.png'
