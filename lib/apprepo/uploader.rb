@@ -116,10 +116,10 @@ module AppRepo
     def ssh_sftp_upload(ssh, local_ipa_path, manifest_path)
       ssh.sftp.connect do |sftp|
         break unless check_ipa(local_ipa_path)
-        check_appcode(sftp, appcode)        
-        path = remote_path(appcode)        
-        manifest = download_manifest(sftp)        
-        puts JSON.pretty_generate(manifest) unless manifest == nil
+        check_appcode(sftp, appcode)
+        path = remote_path(appcode)
+        manifest = download_manifest(sftp)
+        puts JSON.pretty_generate(manifest) unless manifest.nil?
         bump_ipa(sftp, local_ipa_path, appcode)
         remote_ipa_path = get_remote_ipa_path(local_ipa_path, appcode)
         upload_ipa(sftp, local_ipa_path, remote_ipa_path)
@@ -166,7 +166,7 @@ module AppRepo
         sftp.stat!(remote) do |response|
           if response.ok?
             begin
-            sftp.rename!(remote, remote + '.bak')
+              sftp.rename!(remote, remote + '.bak')
             rescue
               begin
                 sftp.remove(remote + '.bak') # may fail if not existent
@@ -189,9 +189,9 @@ module AppRepo
     # @param [String] remote_path
     # @returns [JSON] json or nil
     def download_manifest(sftp)
-      FastlaneCore::UI.message('Checking remote Manifest')      
+      FastlaneCore::UI.message('Checking remote Manifest')
       json = nil
-      remote_manifest_path = remote_manifest_path(self.appcode)
+      remote_manifest_path = remote_manifest_path(appcode)
       begin
         sftp.stat!(remote_manifest_path) do |response|
           if response.ok?
@@ -214,10 +214,10 @@ module AppRepo
     def upload_ipa(sftp, local_ipa_path, remote_ipa_path)
       msg = '[Uploading IPA] ' + local_ipa_path + ' to ' + remote_ipa_path
       FastlaneCore::UI.message(msg)
-      result = sftp.upload!(local_ipa_path, remote_ipa_path) do |event, _uploader, *args|
+      result = sftp.upload!(local_ipa_path, remote_ipa_path) do |event, _uploader, *_args|
         case event
         when :open then
-          putc "."
+          putc '.'
         when :put then
           putc '.'
           $stdout.flush
@@ -237,7 +237,7 @@ module AppRepo
     def upload_manifest(sftp, local_path, remote_path)
       msg = '[Uploading Manifest] ' + local_path + ' to ' + remote_path
       FastlaneCore::UI.message(msg)
-      result = sftp.upload!(local_path, remote_path) do |event, _uploader, *args|
+      result = sftp.upload!(local_path, remote_path) do |event, _uploader, *_args|
         case event
         when :finish then
           FastlaneCore::UI.success('Upload successful!')
