@@ -28,7 +28,7 @@ module AppRepo
     attr_accessor :manifest_path
     attr_accessor :appcode
 
-    def initialize
+    def initialize(options)
       Fastlane::UI.message('[AppRepo:Uploader] Initializing...')
       self.host = 'repo.teacloud.net'
       self.user = 'circle'
@@ -37,7 +37,9 @@ module AppRepo
       self.ipa_path = '../sampleapp.ipa'
       self.manifest_path = '../assets/example_manifest.json'
       self.appcode = 'APPREPO'
-      # self.options = options
+
+      self.options = options unless options.nil?
+
       # AppRepo::Uploader.new.run!
       # FastlaneCore::PrintTable.print_values(config: nil , hide_keys: [:app], mask_keys: ['app_review_information.demo_password'], title: "deliver #{AppRepo::VERSION} Summary") # options
     end

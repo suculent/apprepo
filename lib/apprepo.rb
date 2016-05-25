@@ -26,6 +26,10 @@ module AppRepo
       def initialize
         UI.message('[AppRepo] Initializing...')
       end
+      
+      def new
+        UI.message('[AppRepo] New...')
+      end
   end
 
   Encoding.default_external = Encoding::UTF_8
