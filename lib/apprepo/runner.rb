@@ -8,9 +8,7 @@ module AppRepo
     def initialize(options)
       self.options = options
       AppRepo::DetectValues.new.run!(self.options)
-      # FastlaneCore::PrintTable.print_values(config: options,
-      # hide_keys: [:app], mask_keys: [],
-      # title: "deliver #{AppRepo::VERSION} Summary")
+      FastlaneCore::PrintTable.print_values(config: options, hide_keys: [:repo_password], mask_keys: [], title: "apprepo #{AppRepo::VERSION} Summary")
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -18,7 +16,6 @@ module AppRepo
     def run
       UI.success('AppRepo SFTP Uploader running...')
       verify_version unless options[:app_version].to_s.empty?
-      upload_metadata
       has_binary = options[:ipa]
       if !options[:skip_binary_upload] && !options[:build_number] && has_binary
         upload_binary
@@ -42,9 +39,13 @@ module AppRepo
       # end
     end
 
-    # Upload all metadata, screenshots, pricing information, etc. to AppRepo
-    def upload_metadata
-      #
+    def download_metadata
+      if options[:manifest_path]
+        uploader = AppRepo::Uploader.new(options)
+        result = uploader.download_metadata
+        msg = 'Metadata download failed. Check out the error above'
+        UI.user_error!(msg) unless result
+      end
     end
 
     # Upload the binary to AppRepo
