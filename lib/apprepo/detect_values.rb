@@ -15,7 +15,7 @@ module AppRepo
         # identifier = AppRepo::Analyser.fetch_app_identifier(options[:ipa])
       end
 
-      options[:app_identifier] = identifier if identifier.to_s!empty?
+      options[:app_identifier] = identifier if !identifier.to_s.empty?
       input_message = 'The Bundle Identifier of your App: '
       options[:app_identifier] ||= UI.input(input_message)
     end
@@ -34,8 +34,8 @@ module AppRepo
     def find_version(options)
       puts '[AppRepo:DetectValues] find_version...'
       unless options[:ipa].nil?
-        opt = AppRepo::Analyser.new.fetch_app_version(options[:ipa])
-        options[:app_version] ||= opt
+        opt = AppRepo::Analyser.new(options)
+        options[:app_version] ||= opt.fetch_app_version(options[:ipa])
       end
     end
   end

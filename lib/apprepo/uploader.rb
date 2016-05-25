@@ -5,6 +5,7 @@ require 'json'
 require 'net/ssh'
 require 'net/sftp'
 
+require 'fastlane'
 require 'fastlane_core'
 require 'fastlane_core/languages'
 
@@ -36,7 +37,9 @@ module AppRepo
     def initialize(options)
       FastlaneCore::UI.message('Initializing...')
 
-      puts options.join(',')
+      options foreach do |option|
+        puts option.join(',')
+      end
 
       puts options[:host]
       puts options[:user]
@@ -205,7 +208,7 @@ module AppRepo
           if response.ok?
             FastlaneCore::UI.message('Reading existing Manifest')
             sftp.file.open(remote_manifest_path, 'w') do |remote_manifest|
-              UI.message('Opened file from sftp')
+              FastlaneCore::UI.message('Opened file from sftp')
               manifest = remote_manifest.gets
               json = JSON.parse(manifest)
               puts '********************************************************'

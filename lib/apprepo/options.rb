@@ -15,10 +15,6 @@ module AppRepo
                                      verify_block: proc do |value|
                                        UI.user_error!("Could not find ipa file at path '#{value}'") unless File.exist?(value)
                                        UI.user_error!("'#{value}' doesn't seem to be an ipa file") unless value.end_with?('.ipa')
-                                     end,
-                                     conflicting_options: [:pkg],
-                                     conflict_block: proc do |value|
-                                       UI.user_error!("You can't use 'ipa' and '#{value.key}' options in one run.")
                                      end),
         FastlaneCore::ConfigItem.new(key: :app_identifier,
                                      short_option: '-b',
@@ -67,7 +63,7 @@ module AppRepo
                                      description: 'Name of the app',
                                      optional: false),
         FastlaneCore::ConfigItem.new(key: :skip_binary_upload,
-                                     description: 'Skip uploading an ipa or pkg to AppRepo',
+                                     description: 'Skip uploading an ipa or to AppRepo',
                                      is_string: false,
                                      default_value: false),
         FastlaneCore::ConfigItem.new(key: :app_version,
@@ -86,7 +82,7 @@ module AppRepo
                                      short_option: '-n',
                                      description: 'If set the given build number (already uploaded to iTC) will be used instead of the current built one',
                                      optional: true,
-                                     conflicting_options: [:ipa, :pkg],
+                                     conflicting_options: [:ipa],
                                      conflict_block: proc do |value|
                                        UI.user_error!("You can't use 'build_number' and '#{value.key}' options in one run.")
                                      end),

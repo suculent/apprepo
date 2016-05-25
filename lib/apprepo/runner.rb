@@ -18,7 +18,7 @@ module AppRepo
     # rubocop:disable Metrics/CyclomaticComplexity
     def run
       UI.success('[AppRepo:Runner] Running!')
-      verify_version if options[:app_version].to_s!empty?
+      verify_version if !options[:app_version].to_s.empty?
       upload_metadata
 
       has_binary = (options[:ipa] || options[:pkg])
