@@ -1,4 +1,6 @@
-require_relative '../lib/apprepo'
+require 'spec_helper'
+
+require_relative '../lib/apprepo/apprepo.rb'
 
 describe 'AppRepo' do
   it 'should not fail' do

@@ -44,4 +44,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.38.0'
   spec.add_development_dependency 'fakefs', '~> 0'
   spec.add_development_dependency 'coverband', '~> 0'
+  spec.add_development_dependency 'fastlane', '~> 1.89'
 end

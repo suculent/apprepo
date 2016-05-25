@@ -16,6 +16,9 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def run
+
+      puts "[AppRepo::CommandsGenerator] run"
+
       program :version, AppRepo::VERSION
       program :description, AppRepo::DESCRIPTION
       program :help, 'Author', 'Matej Sychra <suculent@me.com>'
@@ -36,10 +39,13 @@ module AppRepo
           options = FastlaneCore::Configuration.create(AppRepo::Options.available_options, options.__hash__)
           loaded = options.load_configuration_file('Repofile')
           loaded = true if options[:repo_description] || options[:ipa]
+
           unless loaded
+            puts "[AppRepo::CommandsGenerator] configuration file not loaded"
             if UI.confirm('No AppRepo configuration found in the current directory. Do you want to setup apprepo?')
-              require 'apprepo/setup'
+              require 'apprepo/setup'              
               AppRepo::Setup.new.run(options)
+              puts "[AppRepo::CommandsGenerator] exiting."
               return 0
             end
           end
@@ -47,6 +53,7 @@ module AppRepo
           AppRepo::Runner.new(options).run
         end
       end
+
       command :submit_build do |c|
         c.syntax = 'apprepo submit_build'
         c.description = 'Submit a specific build-nr for review, use latest for the latest build'
@@ -58,6 +65,7 @@ module AppRepo
           AppRepo::Runner.new(options).run
         end
       end
+
       command :init do |c|
         c.syntax = 'apprepo init'
         c.description = 'Create the initial `apprepo` configuration based on an existing app'

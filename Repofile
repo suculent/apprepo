@@ -29,4 +29,4 @@ notify true # Add this to automatically notify the AppRepo users after uploading
 manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
 meta_subtitle "Some application"
 meta_description "Detailed application description."
-app_icon './assets/apprepo.png'
+app_icon "./assets/apprepo.png"
