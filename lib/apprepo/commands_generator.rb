@@ -16,8 +16,7 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def run
-
-      puts "[AppRepo::CommandsGenerator] run"
+      puts '[AppRepo::CommandsGenerator] run'
 
       program :version, AppRepo::VERSION
       program :description, AppRepo::DESCRIPTION
@@ -41,11 +40,11 @@ module AppRepo
           loaded = true if options[:repo_description] || options[:ipa]
 
           unless loaded
-            puts "[AppRepo::CommandsGenerator] configuration file not loaded"
+            puts '[AppRepo::CommandsGenerator] configuration file not loaded'
             if UI.confirm('No AppRepo configuration found in the current directory. Do you want to setup apprepo?')
-              require 'apprepo/setup'              
+              require 'apprepo/setup'
               AppRepo::Setup.new.run(options)
-              puts "[AppRepo::CommandsGenerator] exiting."
+              puts '[AppRepo::CommandsGenerator] exiting.'
               return 0
             end
           end

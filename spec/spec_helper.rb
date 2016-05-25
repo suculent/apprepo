@@ -1,5 +1,5 @@
-#require 'coveralls'
-#Coveralls.wear! unless ENV['FASTLANE_SKIP_UPDATE_CHECK']
+# require 'coveralls'
+# Coveralls.wear! unless ENV['FASTLANE_SKIP_UPDATE_CHECK']
 
 # This module is only used to check the environment is currently a testing env
 # Needs to be above the `require 'apprepo'`
@@ -17,8 +17,8 @@ ENV['APPREPO_PASSWORD'] = 'circle'
 RSpec.configure do |config|
   config.before(:each) do
     # we do not authenticate against spaceship but apprepo here... where will the ssh session be strongly held?
-    puts "RSpec.configure is empty in spec_helper.rb"
+    puts 'RSpec.configure is empty in spec_helper.rb'
   end
 end
 
-#WebMock.disable_net_connect!(allow: 'coveralls.io')
+# WebMock.disable_net_connect!(allow: 'coveralls.io')

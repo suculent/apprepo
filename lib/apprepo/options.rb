@@ -98,7 +98,7 @@ module AppRepo
                                      verify_block: proc do |value|
                                        UI.user_error!("Could not find png file at path '#{value}'") unless File.exist?(value)
                                        UI.user_error!("'#{value}' doesn't seem to be a png file") unless value.end_with?('.png')
-                                     end),
+                                     end)
       ]
     end
   end

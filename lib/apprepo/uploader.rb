@@ -50,9 +50,9 @@ module AppRepo
 
     def run
       # Login & Upload IPA with metadata using RSA key or username/password
-      rsa_key = load_rsa_key(self.rsa_keypath)
+      rsa_key = load_rsa_key(rsa_keypath)
       if rsa_key?
-      #if !rsa_key.nil?
+        # if !rsa_key.nil?
         Fastlane::UI.message('[AppRepo:Uploader] Logging in with RSA key ' + rsa_keypath)
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
           Fastlane::UI.message('[AppRepo:Uploader] Logged in, uploading UPA & Manifest...')
@@ -70,7 +70,6 @@ module AppRepo
 
     def ssh_sftp_upload(ssh, local_ipa_path, manifest_path)
       ssh.sftp.connect do |sftp|
-
         ipa_name = File.basename(local_ipa_path)
 
         if File.exist?(local_ipa_path)
@@ -103,9 +102,9 @@ module AppRepo
           sftp.stat!(remote_manifest_path) do |response|
             if response.ok?
               Fastlane::UI.message('Reading existing Manifest.')
-              sftp.file.open(remote_manifest_path, 'w') do |remote_manifest|                
+              sftp.file.open(remote_manifest_path, 'w') do |remote_manifest|
                 manifest = remote_manifest.gets
-                json = JSON.parse(manifest)                
+                json = JSON.parse(manifest)
                 UI.message('[AppRepo:Uploader] Opened file from sftp...')
                 puts '****************************************************************'
                 puts json
@@ -167,7 +166,7 @@ module AppRepo
       end
     end
 
-    # Private methods – Remote Operations   
+    # Private methods – Remote Operations
 
     def get_remote_ipa_path(ipa_path)
       path = get_remote_path + appcode + '/' + File.basename(ipa_path)
@@ -181,17 +180,17 @@ module AppRepo
       path
     end
 
-     def remote_mkdir(sftp, remote_path)
+    def remote_mkdir(sftp, remote_path)
       sftp.mkdir remote_path
-    rescue Net::SFTP::StatusException => e
-      if e.code == 11
-        Fastlane::UI.message('[AppRepo:Uploader] Remote directory' + remote_path + ' already exists. OK...')
-      else
-        raise
-      end
-    end
+   rescue Net::SFTP::StatusException => e
+     if e.code == 11
+       Fastlane::UI.message('[AppRepo:Uploader] Remote directory' + remote_path + ' already exists. OK...')
+     else
+       raise
+     end
+   end
 
-    # Private methods – Local Operations   
+    # Private methods – Local Operations
 
     def load_rsa_key(rsa_keypath)
       File.open(File.dirname(__FILE__) + '/' + rsa_keypath, 'r') do |file|
@@ -200,6 +199,5 @@ module AppRepo
         return rsa_key
       end
     end
-
   end
 end

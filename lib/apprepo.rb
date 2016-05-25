@@ -26,7 +26,7 @@ module AppRepo
       def initialize
         UI.message('[AppRepo] Initializing...')
       end
-      
+
       def new
         UI.message('[AppRepo] New...')
       end
