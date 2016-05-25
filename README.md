@@ -32,13 +32,14 @@
 apprepo
 ============
 
-**This project is now in preparation phase. It is secure, therefore none of it works except for tests against test server with sample account & shared public key.**
+**This project is a preparation phase for fastlane-plugin-apprepo and will eventually deprecate.**
 
 [![Twitter: @igraczech](https://img.shields.io/badge/contact-%40igraczech-green.svg?style=flat)](https://twitter.com/igraczech)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/fastlane/blob/master/deliver/LICENSE)
 [![Gem](https://img.shields.io/gem/v/apprepo.svg?style=flat)](http://rubygems.org/gems/apprepo)
 [![Build Status](https://img.shields.io/circleci/project/suculent/apprepo.svg?style=flat)](https://circleci.com/gh/suculent/apprepo)
 [![Coverage Status](https://coveralls.io/repos/github/suculent/apprepo/badge.svg?branch=master)](https://coveralls.io/github/suculent/apprepo?branch=master)
+![Fastlane](https://img.shields.io/badge/_status_-_waiting--for--fastlane--plugins--manager_-yellow.svg)
 
 ###### Deliver IPAs, icons & manifest.json to AppRepo (or any other SFTP server) using a single command.
 

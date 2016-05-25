@@ -59,7 +59,7 @@ module AppRepo
 
     def notify
       # should be in metadata
-      UI.user_error!('TODO: Missing implementation for AppRepo Push Notifier')
+      UI.message('TODO: Missing implementation for AppRepo Push Notifier')
     end
   end
 end

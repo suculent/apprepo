@@ -6,7 +6,7 @@
 # Feel free to remove the following line if you use fastlane (which you should)
 
 app_identifier "com.apprepo.test" # your app's bundle identifier
-ipa File.dirname(__FILE__) + "../sampleapp.ipa"
+ipa "./sampleapp.ipa" # can be overriden with --ipa
 manifest_path "./manifest.json" # Path to the manifest.json you want to use. 
 
 #
