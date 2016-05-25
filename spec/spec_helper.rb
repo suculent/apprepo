@@ -6,7 +6,6 @@ Coveralls.wear! # unless ENV['FASTLANE_SKIP_UPDATE_CHECK']
 module SpecHelper
 end
 
-require 'fastlane'
 require 'fastlane_core'
 require 'webmock/rspec'
 require 'apprepo'

@@ -61,8 +61,32 @@ module AppRepo
         end
       end
 
-      command :submit_build do |c|
-        c.syntax = 'apprepo submit_build'
+      command :download_manifest do |c|
+        c.syntax = 'apprepo download manifest'
+        c.description = 'Downloads existing metadata and stores it locally.
+        This overwrites the local files.'
+
+        c.action do |_args, options|
+          config = FastlaneCore::Configuration
+          available_opts = AppRepo::Options.available_options
+          options = config.create(available_opts, options.__hash__)
+          options.load_configuration_file('Repofile')
+          AppRepo::Runner.new(options) # to login...
+          cont = FastlaneCore::Helper.fastlane_enabled? ? './fastlane' : '.'
+          path = options[:manifest_path] || File.join(cont, 'metadata')
+          res = ENV['APPREPO_FORCE_OVERWRITE']
+          msg = 'Do you want to overwrite existing metadata on path '
+          res ||= UI.confirm(msg + '#{File.expand_path(path)}' + '?')
+          return 0 if res.nil?
+          require 'apprepo/setup'
+          # TODO: Fetch version from IPA or else
+          v = options[:app_version].latest_version
+          AppRepo::Setup.new.generate_metadata_files(v, path)
+        end
+      end
+
+      command :submit do |c|
+        c.syntax = 'apprepo submit'
         c.description = 'Submit a specific build-nr, use latest.'
         c.action do |_args, options|
           config = FastlaneCore::Configuration
@@ -93,29 +117,6 @@ module AppRepo
         end
       end
 
-      command :download_metadata do |c|
-        c.syntax = 'apprepo download_metadata'
-        c.description = 'Downloads existing metadata and stores it locally.
-        This overwrites the local files.'
-
-        c.action do |_args, options|
-          config = FastlaneCore::Configuration
-          available_opts = AppRepo::Options.available_options
-          options = config.create(available_opts, options.__hash__)
-          options.load_configuration_file('Repofile')
-          AppRepo::Runner.new(options) # to login...
-          cont = FastlaneCore::Helper.fastlane_enabled? ? './fastlane' : '.'
-          path = options[:manifest_path] || File.join(cont, 'metadata')
-          res = ENV['APPREPO_FORCE_OVERWRITE']
-          msg = 'Do you want to overwrite existing metadata on path '
-          res ||= UI.confirm(msg + '#{File.expand_path(path)}' + '?')
-          return 0 if res.nil?
-          require 'apprepo/setup'
-          # TODO: Fetch version from IPA or else
-          v = options[:app_version].latest_version
-          AppRepo::Setup.new.generate_metadata_files(v, path)
-        end
-      end
       # rubocop:enable Metrics/AbcSize
       # rubocop:enable Metrics/MethodLength
 

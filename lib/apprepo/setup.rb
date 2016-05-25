@@ -6,7 +6,7 @@ module AppRepo
       File.write(file_path, data)
 
       # TODO: implement later
-      # download_metadata(apprepo_path, options)
+      download_manifest(apprepo_path, options)
 
       UI.success("NOT! created new Repofile at path '#{file_path}'")
     end
@@ -15,7 +15,7 @@ module AppRepo
     # and screenshots folders
     def generate_apprepo_file(_apprepo_path, options)
       # v = options[:app].latest_version
-      # generate_manifest_file(v, File.join(apprepo_path, 'manifest.json'))
+      # generate_apprepo_file(v, File.join(apprepo_path, 'manifest.json'))
 
       # Generate the final Repofile here
       gem_path = Helper.gem_path('apprepo')
@@ -27,11 +27,11 @@ module AppRepo
       # apprepo (was deliver)
     end
 
-    def download_metadata(apprepo_path, _options)
+    def download_manifest(apprepo_path, _options)
       path = File.join(apprepo_path, 'metadata')
       FileUtils.mkdir_p(path)
-      UI.success("TODO: DOWNLOAD METADATA'")
-      AppRepo::DownloadMetadata.run(options, path)
+      UI.success("TODO: DOWNLOAD MANIFEST'")
+      AppRepo::Uploader.download_metadata(options, path)
     end
 
     def run(options)

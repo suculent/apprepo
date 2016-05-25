@@ -1,21 +1,26 @@
+require_relative 'uploader'
+require 'fastlane_core'
+
 module AppRepo
-    
-  # Should provide metadata from current context
+  # Should provide metadata for current appcode
   class Analyser
-      
     attr_accessor :options
-      
+
     def initialize(options)
-        self.options = options
+      self.options = options
     end
-    
-    def fetch_app_version(options_ipa)
-    	# TODO: parse options_ipa
-        return "0.0"
+
+    # Fetches remote app version from metadata
+    def fetch_app_version(options)
+      metadata = AppRepo::Uploader.new(options).download_metadata
+      FastlaneCore::UI.user_error!('TODO: Parse version out from metadata')
+      '0.0'
     end
-    
+
+    # only for testing, should be empty
     def run
+      FastlaneCore::UI.message('AppRepo:Analyser.run for test...')
+      fetch_app_version
     end
-    
   end
 end

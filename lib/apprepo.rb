@@ -7,7 +7,6 @@ require 'json'
 require_relative 'apprepo/analyser'
 require_relative 'apprepo/commands_generator'
 require_relative 'apprepo/detect_values'
-require_relative 'apprepo/download_metadata'
 require_relative 'apprepo/loader'
 require_relative 'apprepo/manifest'
 require_relative 'apprepo/options'
@@ -35,8 +34,4 @@ module AppRepo
 
   Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
-
-  # Test
-  UI.message('[AppRepo] AppRepo::CommandsGenerator.new.run')
-  CommandsGenerator.new.run
 end
