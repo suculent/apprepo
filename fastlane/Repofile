@@ -2,8 +2,6 @@
 # If you want to have even more control, check out the documentation
 # https://github.com/suculent/apprepo/blob/master/Repofile.md
 
-puts "Loading ./fastlane/Repofile"
-
 ###################### Automatically generated ######################
 # Feel free to remove the following line if you use fastlane (which you should)
 
@@ -15,11 +13,11 @@ manifest_path "./manifest.json" # Path to the manifest.json you want to use.
 # Authentication
 #
 
-# You can use your `~/.ssh/config` file to setup RSA keys to AppRepo, or use following options:
+# You can use your '~/.ssh/config' file to setup RSA keys to AppRepo, or use following options:
 
 repo_url "repo.teacloud.net"
 repo_user "circle"
-repo_key "./lib/assets/circle.key" # should have ‘chmod 600’ and reside in '~/.ssh’ or it might be rejected by SSL
+repo_key "./lib/assets/circle.key" # should have 'chmod 600' and reside in '~/.ssh’ or it might be rejected by SSL
 
 notify true # Add this to automatically notify the AppRepo users after uploading metadata/binary. 
 
