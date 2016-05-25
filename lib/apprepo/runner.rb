@@ -21,7 +21,7 @@ module AppRepo
       verify_version if !options[:app_version].to_s.empty?
       upload_metadata
 
-      has_binary = (options[:ipa] || options[:pkg])
+      has_binary = (options[:ipa])
       if !options[:skip_binary_upload] && !options[:build_number] && has_binary
         upload_binary
       end
@@ -54,8 +54,8 @@ module AppRepo
     def upload_binary
       UI.message('Uploading binary to AppRepo')
       if options[:ipa]
-        AppRepo::Uploader.new(options)
-        # result = transporter.upload(options[:app].apple_id, package_path)
+        uploader = AppRepo::Uploader.new(options)
+        result = uploader.upload
         msg = 'Binary upload failed. Check out the error above'
         UI.user_error!(msg) unless result
       end

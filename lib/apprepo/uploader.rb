@@ -35,27 +35,23 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def initialize(options)
-      FastlaneCore::UI.message('Initializing...')
+      FastlaneCore::UI.message('Initializing options...')
 
-      options foreach do |option|
-        puts option.join(',')
-      end
-
-      puts options[:host]
-      puts options[:user]
-      puts options[:password]
-      puts options[:rsa_keypath]
-      puts options[:ipa_path]
+      puts options[:repo_url]
+      puts options[:repo_user]
+      puts options[:repo_password]
+      puts options[:repo_key]
+      puts options[:ipa]
       puts options[:manifest_path]
       puts options[:appcode]
 
-      self.host = 'repo.teacloud.net'
-      self.user = 'circle'
-      self.password = 'circle'
-      self.rsa_keypath = '../assets/circle.key'
-      self.ipa_path = '../sampleapp.ipa'
-      self.manifest_path = '../assets/example_manifest.json'
-      self.appcode = 'APPREPO'
+      self.host = options[:repo_url] # 'repo.teacloud.net'
+      self.user = options[:repo_user]
+      self.password = options[:repo_password]
+      self.rsa_keypath = options[:repo_key] # '../assets/circle.key'
+      self.ipa_path = options[:ipa] # '../sampleapp.ipa'
+      self.manifest_path = options[:manifest_path] # '../assets/example_manifest.json'
+      self.appcode = options[:appcode]
 
       self.options = options unless options.nil?
 
@@ -74,21 +70,23 @@ module AppRepo
     def upload
       # Login & Upload IPA with metadata using RSA key or username/password
       rsa_key = load_rsa_key(rsa_keypath)
+      success = false
       if rsa_key?
         FastlaneCore::UI.message('Logging in with RSA key...')
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
           self.ssh_session = ssh
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
-          ssh_sftp_upload(ssh, ipa_path, manifest_path)
+          success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       else
         FastlaneCore::UI.message('Logging in...')
         Net::SSH.start(host, user, password: password) do |ssh|
           self.ssh_session = ssh
           FastlaneCore::UI.message('Logged in, uploading IPA & Manifest...')
-          ssh_sftp_upload(ssh, ipa_path, manifest_path)
+          success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       end
+      success
     end
 
     #
