@@ -30,21 +30,10 @@ module AppRepo
     attr_accessor :manifest_path
     attr_accessor :appcode
 
-    @ssh_session = nil
-
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def initialize(options)
       FastlaneCore::UI.message('Initializing options...')
-
-      puts options[:repo_url]
-      puts options[:repo_user]
-      puts options[:repo_password]
-      puts options[:repo_key]
-      puts options[:ipa]
-      puts options[:manifest_path]
-      puts options[:appcode]
-
       self.host = options[:repo_url] # 'repo.teacloud.net'
       self.user = options[:repo_user]
       self.password = options[:repo_password]
@@ -71,10 +60,9 @@ module AppRepo
       # Login & Upload IPA with metadata using RSA key or username/password
       rsa_key = load_rsa_key(rsa_keypath)
       success = false
-      if rsa_key?
+      if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
-          self.ssh_session = ssh
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
@@ -130,12 +118,13 @@ module AppRepo
         break unless check_ipa(local_ipa_path)
         check_appcode(sftp, appcode)
         path = remote_path(appcode)
-        manifest = download_manifest(sftp, remote)
-        bump_ipa(sftp, local_ipa_path)
+        manifest = download_manifest(sftp)
+        bump_ipa(sftp, local_ipa_path, appcode)
+        remote_ipa_path = get_remote_ipa_path(local_ipa_path, appcode)
 
         FastlaneCore::UI.message('[Uploading] Will start...')
         upload_ipa(sftp, local_ipa_path, remote_ipa_path)
-        upload_manifest(sftp, manifest_path, remote_manifest_path)
+        upload_manifest(sftp, manifest_path, remote_manifest_path(appcode))
 
         # Lists the entries in a directory for verification
         sftp.dir.foreach(path) do |entry|
@@ -149,10 +138,10 @@ module AppRepo
     # @param local_ipa_path
     def check_ipa(local_ipa_path)
       if File.exist?(local_ipa_path)
-        FastlaneCore::UI.message('IPA found at ' + local_ipa_path)
+        FastlaneCore::UI.command('IPA found at ' + local_ipa_path)
         return true
       else
-        FastlaneCore::UI.message('IPA at given path does not exist!')
+        FastlaneCore::UI.verbose('IPA at given path does not exist yet.')
         return false
       end
     end
@@ -164,7 +153,7 @@ module AppRepo
     # @param [String] appcode
     def check_appcode(sftp, appcode)
       path = remote_path(appcode)
-      FastlaneCore::UI.message('Checking APPCODE at: ' + path)
+      FastlaneCore::UI.message('Checking APPCODE')
       remote_mkdir(sftp, path)
     end
 
@@ -172,8 +161,8 @@ module AppRepo
     #
     # @params sftp
     # @params [String] local_ipa_path
-    def bump_ipa(sftp, local)
-      remote = get_remote_ipa_path(local)
+    def bump_ipa(sftp, local, appcode)
+      remote = get_remote_ipa_path(local, appcode)
       FastlaneCore::UI.message('Checking remote IPA')
       begin
         sftp.stat!(remote) do |response|
@@ -193,14 +182,14 @@ module AppRepo
       end
     end
 
-    # Downloads remote manifest
+    # Downloads remote manifest, self.appcode required by options.
     #
     # @params sftp
     # @params [String] remote_path
     def download_manifest(sftp)
-      FastlaneCore::UI.message('Checking remote Manifest')
-      remote_manifest_path = remote_path + '/manifest.json'
+      FastlaneCore::UI.message('Checking remote Manifest')      
       json = ''
+      remote_manifest_path = remote_manifest_path(self.appcode)
       begin
         sftp.stat!(remote_manifest_path) do |response|
           if response.ok?
@@ -210,8 +199,9 @@ module AppRepo
               manifest = remote_manifest.gets
               json = JSON.parse(manifest)
               puts '********************************************************'
-              puts json
+              puts manifest
               puts '********************************************************'
+              puts json.to_s
             end
           end
         end
@@ -227,10 +217,19 @@ module AppRepo
     # @param [String] local_ipa_path
     # @param [String] remote_ipa_path
     def upload_ipa(sftp, local_ipa_path, remote_ipa_path)
-      path = File.dirname(__FILE__) + '/' + local_ipa_path
-      msg = '[Uploading IPA] ' + path + ' to ' + remote_ipa_path
+      msg = '[Uploading IPA] ' + local_ipa_path + ' to ' + remote_ipa_path
       FastlaneCore::UI.message(msg)
-      sftp.upload!(path, remote_ipa_path)
+      result = sftp.upload!(local_ipa_path, remote_ipa_path) do |event, _uploader, *args|
+        case event
+        when :put then
+          putc '.'
+          $stdout.flush
+        when :close then
+          FastlaneCore::UI.message("Finished with #{args[0].remote}")
+        when :finish then
+          FastlaneCore::UI.success('Upload successful!')
+        end
+      end
     end
 
     # Upload current manifest.json
@@ -240,26 +239,23 @@ module AppRepo
     # @param [String] remote_manifest_path
     def upload_manifest(sftp, local_path, remote_path)
       msg = '[Uploading Manifest] ' + local_path + ' to ' + remote_path
-      FastlaneCore::UI.message(msg)
       sftp.upload!(local_path, remote_path)
     end
 
-    def get_remote_ipa_path(ipa_path)
-      path = remote_path + File.basename(ipa_path)
-      FastlaneCore::UI.message('remote_ipa_path: ' + path)
-      path
+    def get_remote_ipa_path(local_ipa_path, appcode)
+      remote_path(appcode) + File.basename(local_ipa_path)
     end
 
     def remote_path(appcode)
-      path = generate_remote_path + appcode + '/'
-      FastlaneCore::UI.message('remote_path: ' + path)
-      path
+      generate_remote_path + appcode + '/'
+    end
+
+    def remote_manifest_path(appcode)
+      remote_manifest_path = remote_path(appcode) + '/manifest.json'
     end
 
     def generate_remote_path
-      path = '/home/' + user + '/repo/apps/'
-      FastlaneCore::UI.message('generate_remote_path: ' + path)
-      path
+      '/home/' + user + '/repo/apps/'
     end
 
     def remote_mkdir(sftp, remote_path)
@@ -273,11 +269,15 @@ module AppRepo
     # Private methods - Local Operations
 
     def load_rsa_key(rsa_keypath)
-      File.open(File.dirname(__FILE__) + '/' + rsa_keypath, 'r') do |file|
+      File.open(rsa_keypath, 'r') do |file|
+        rsa_key = nil
         rsa_key = [file.read]
-        msg = 'Successfully loaded RSA key...'
-        FastlaneCore::UI.message(msg) unless rsa_key.nil?
-        return rsa_key
+        if !rsa_key.nil?
+          FastlaneCore::UI.success('Successfully loaded RSA key...')
+        else
+          FastlaneCore::UI.user_error!('Failed to load RSA key...')
+        end
+        rsa_key
       end
     end
   end

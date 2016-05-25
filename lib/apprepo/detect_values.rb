@@ -15,7 +15,7 @@ module AppRepo
         # identifier = AppRepo::Analyser.fetch_app_identifier(options[:ipa])
       end
 
-      options[:app_identifier] = identifier if !identifier.to_s.empty?
+      options[:app_identifier] = identifier unless identifier.to_s.empty?
       input_message = 'The Bundle Identifier of your App: '
       options[:app_identifier] ||= UI.input(input_message)
     end

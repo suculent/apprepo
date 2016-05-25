@@ -20,7 +20,7 @@ module AppRepo
     # only for testing, should be empty
     def run
       FastlaneCore::UI.message('AppRepo:Analyser.run for test...')
-      fetch_app_version(self.options)
+      fetch_app_version(options)
     end
   end
 end
