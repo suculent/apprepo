@@ -1,4 +1,7 @@
+require 'json'
+
 module AppRepo
+  # Responsible for parsing and providing manifest.json
   class Manifest
     #
     # Translated internal key names from Fastlane to AppRepo
@@ -14,11 +17,15 @@ module AppRepo
 
     def initialize(appcode)
       self.appcode = appcode
-      UI.message('Initializing "AppRepo:Manifest requies at least APPCODE :"' + self.appcode)
+      UI.message('Initializing requires APPCODE. ' + self.appcode)
+    end
+
+    def parse_json(json)
+      # TODO: load values from JSON
     end
 
     # Provide JSON serialized data
-    def getJSON
+    def manifest_as_json
       structure = {
         appcode: appcode,
         filename: filename,

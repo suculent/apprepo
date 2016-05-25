@@ -23,14 +23,14 @@ Gem::Specification.new do |spec|
 
   # fastlane dependencies
 
-  spec.add_dependency 'fastlane', '~> 0', '< 2.0.0' # all shared code and dependencies '~> 1.89'
+  spec.add_dependency 'fastlane', '~> 0', '< 2.0.0'
   spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 0'
   spec.add_dependency 'net-sftp', '~> 0'
   spec.add_dependency 'json', '= 1.8.1' # required by fastlane
 
   # third party dependencies
-  spec.add_dependency 'fastimage', '~> 1.6' # fetch the image sizes from the icons
+  spec.add_dependency 'fastimage', '~> 1.6'
 
   # Development only
   spec.add_development_dependency 'bundler', '~> 1.0'

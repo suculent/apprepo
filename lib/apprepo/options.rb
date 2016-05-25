@@ -1,7 +1,9 @@
 require 'fastlane_core'
 
 module AppRepo
+  # Provides available options for the commands generator
   class Options
+    # rubocop:disable Metrics/AbcSize
     def self.available_options
       [
         FastlaneCore::ConfigItem.new(key: :ipa,
@@ -65,7 +67,7 @@ module AppRepo
                                      description: 'Name of the app',
                                      optional: false),
         FastlaneCore::ConfigItem.new(key: :skip_binary_upload,
-                                     description: 'Skip uploading an ipa or pkg to iTunes Connect',
+                                     description: 'Skip uploading an ipa or pkg to AppRepo',
                                      is_string: false,
                                      default_value: false),
         FastlaneCore::ConfigItem.new(key: :app_version,

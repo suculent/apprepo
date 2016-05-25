@@ -1,4 +1,5 @@
 module AppRepo
+  # Responsible for setting up the Repofile configuration
   class Setup
     def setup_apprepo(file_path, data, _apprepo_path, _options)
       UI.message('[AppRepo:Setup] Setting up...')
@@ -10,12 +11,11 @@ module AppRepo
       UI.success("NOT! created new Repofile at path '#{file_path}'")
     end
 
-    # This method takes care of creating a new 'apprepo' folder, containg the app metadata
+    # This method takes care of creating a new 'apprepo' folder with metadata
     # and screenshots folders
     def generate_apprepo_file(_apprepo_path, options)
-      #
       # v = options[:app].latest_version
-      # generate_metadata_files(v, File.join(apprepo_path, 'metadata'))
+      # generate_manifest_file(v, File.join(apprepo_path, 'manifest.json'))
 
       # Generate the final Repofile here
       gem_path = Helper.gem_path('apprepo')
@@ -24,15 +24,14 @@ module AppRepo
       apprepo.gsub!('[[APPREPO_IPA_PATH]]', options[:app].file_path)
       apprepo.gsub!('[[APP_VERSION]]', options[:app].version)
       apprepo.gsub!('[[APP_NAME]]', options[:app].name)
-      UI.user_error("TODO: ADJUST Repofile'")
-      # deliver => apprepo??
+      # apprepo (was deliver)
     end
 
     def download_metadata(apprepo_path, _options)
       path = File.join(apprepo_path, 'metadata')
       FileUtils.mkdir_p(path)
       UI.success("TODO: DOWNLOAD METADATA'")
-      # AppRepo::DownloadManifest.run(options, path)
+      AppRepo::DownloadMetadata.run(options, path)
     end
 
     def run(options)

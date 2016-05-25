@@ -1,10 +1,12 @@
 require 'fastlane_core/languages'
 
-module Deliver
+module AppRepo
+  # Responsible for loading language folders
   module Loader
     def self.language_folders(root)
       Dir.glob(File.join(root, '*')).select do |path|
-        File.directory?(path) && ALL_LANGUAGES.include?(File.basename(path).downcase)
+        all = ALL_LANGUAGES.include?(File.basename(path).downcase)
+        File.directory?(path) && all
       end.sort
     end
   end

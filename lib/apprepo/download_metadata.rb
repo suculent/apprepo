@@ -1,4 +1,6 @@
 module AppRepo
+  # Responsible for downloading manifest.json from AppRepo
+  # Should be part of uploader. No need for separate class.
   class DownloadMetadata
     def self.run(options, path)
       UI.message('TODO: Download existing manifest.json...')
@@ -13,32 +15,6 @@ module AppRepo
       UI.message('TODO: DOWNLOAD existing manifest.json NOT IMPLEMENTED')
 
       # v = options[:app].latest_version
-
-      # v.screenshots.each do |language, screenshots|
-      #   screenshots.each do |screenshot|
-      #     file_name = [screenshot.sort_order, screenshot.device_type, screenshot.sort_order].join("_")
-      #     original_file_extension = File.basename(screenshot.original_file_name)
-      #     file_name += "." + original_file_extension
-
-      #     UI.message("Downloading existing screenshot '#{file_name}'")
-
-      #     # If the screen shot is for an appleTV we need to store it in a way that we'll know it's an appleTV
-      #     # screen shot later as the screen size is the same as an iPhone 6 Plus in landscape.
-      #     if screenshot.device_type == "appleTV"
-      #       containing_folder = File.join(folder_path, "appleTV", screenshot.language)
-      #     else
-      #       containing_folder = File.join(folder_path, screenshot.language)
-      #     end
-
-      #     begin
-      #       FileUtils.mkdir_p(containing_folder)
-      #     rescue
-      #       # if it's already there
-      #     end
-      #     path = File.join(containing_folder, file_name)
-      #     File.write(path, open(screenshot.url).read)
-      #   end
-      # end
     end
   end
 end

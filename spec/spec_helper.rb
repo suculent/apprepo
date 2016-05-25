@@ -16,7 +16,8 @@ ENV['APPREPO_PASSWORD'] = 'circle'
 
 RSpec.configure do |config|
   config.before(:each) do
-    # we do not authenticate against spaceship but apprepo here... where will the ssh session be strongly held?
+    # we do not authenticate against spaceship but apprepo here.
+    # where will the ssh session be strongly held?
     puts 'RSpec.configure is empty in spec_helper.rb'
   end
 end

@@ -17,10 +17,11 @@ require_relative 'apprepo/runner'
 require_relative 'apprepo/setup'
 require_relative 'apprepo/loader'
 
-require_relative 'apprepo/upload_descriptor' # will deprecate or replace :app info
+require_relative 'apprepo/upload_descriptor' # will deprecate
 
 require 'fastlane_core'
 
+# Root class of the AppRepo SFTP Uploader
 module AppRepo
   class << self
       def initialize
@@ -35,22 +36,10 @@ module AppRepo
   Encoding.default_external = Encoding::UTF_8
   Encoding.default_internal = Encoding::UTF_8
 
-  # Generate options (simulates commands_generator.rb)
-  Helper = FastlaneCore::Helper # you gotta love Ruby: Helper.* should use the Helper class contained in FastlaneCore
+  Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
 
-  appcode = 'ruby-test'
-
-  # Setup descriptor (appcode, ipa, metadata - from repofile)!
-  UI.message('[AppRepoTest] UploadDescriptor.new')
-  uploadDescriptor = UploadDescriptor.new(appcode) # not used yet
-  uploadDescriptor.appcode = appcode
-
-  # Test Uploader (OK)
-  # UI.message('[AppRepoTest] Uploader.new')
-  # upload = Uploader.new('repo.teacloud.net', 'circle', File.dirname(__FILE__) + '/../assets/circle.key', appcode)
-  # upload.run
-
-  UI.message('[AppRepoTest] AppRepo::CommandsGenerator.new.run')
+  # Test
+  UI.message('[AppRepo] AppRepo::CommandsGenerator.new.run')
   CommandsGenerator.new.run
 end
