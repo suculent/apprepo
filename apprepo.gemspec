@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   # fastlane dependencies
 
-  spec.add_dependency 'fastlane', '~> 0', '< 2.0.0' # all shared code and dependencies
+  spec.add_dependency 'fastlane', '~> 0', '< 2.0.0' # all shared code and dependencies '~> 1.89'
   spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 0'
   spec.add_dependency 'net-sftp', '~> 0'
@@ -44,5 +44,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.38.0'
   spec.add_development_dependency 'fakefs', '~> 0'
   spec.add_development_dependency 'coverband', '~> 0'
-  spec.add_development_dependency 'fastlane', '~> 1.89'
 end
