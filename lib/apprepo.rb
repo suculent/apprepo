@@ -4,6 +4,7 @@
 
 require 'json'
 
+require_relative 'apprepo/analyser'
 require_relative 'apprepo/commands_generator'
 require_relative 'apprepo/detect_values'
 require_relative 'apprepo/download_metadata'

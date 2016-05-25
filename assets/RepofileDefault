@@ -17,7 +17,7 @@ repo_title "[[APP_NAME]]"
 # Authentication
 #
 
-# You can use your `~/.ssh/config` file to setup RSA keys to AppRepo, or use following options:
+# You can use your '~/.ssh/config' file to setup RSA keys to AppRepo, or use following options:
 
 repo_url "repo.teacloud.net"
 repo_user "circle"
