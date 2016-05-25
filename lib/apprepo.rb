@@ -4,20 +4,16 @@
 
 require 'json'
 
-require_relative 'apprepo/version'
-require_relative 'apprepo/options'
-
-require_relative 'apprepo/uploader'
-require_relative 'apprepo/upload_metadata'
-require_relative 'apprepo/upload_assets'
 require_relative 'apprepo/commands_generator'
-
 require_relative 'apprepo/detect_values'
+require_relative 'apprepo/download_metadata'
+require_relative 'apprepo/loader'
+require_relative 'apprepo/manifest'
+require_relative 'apprepo/options'
 require_relative 'apprepo/runner'
 require_relative 'apprepo/setup'
-require_relative 'apprepo/loader'
-
-require_relative 'apprepo/upload_descriptor' # will deprecate
+require_relative 'apprepo/uploader'
+require_relative 'apprepo/version'
 
 require 'fastlane_core'
 
