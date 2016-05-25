@@ -34,7 +34,7 @@ module AppRepo
     def find_version(options)
       puts '[AppRepo:DetectValues] find_version...'
       unless options[:ipa].nil?
-        opt = AppRepo::Analyser.fetch_app_version(options[:ipa])
+        opt = AppRepo::Analyser.new.fetch_app_version(options[:ipa])
         options[:app_version] ||= opt
       end
     end
