@@ -54,7 +54,20 @@ module AppRepo
     # rubocop:disable Metrics/MethodLength
     def upload
       # Login & Upload IPA with metadata using RSA key or username/password
-      rsa_key = load_rsa_key(rsa_keypath)
+      FastlaneCore::UI.message('upload...')
+
+      if host.nil? || user.nil?
+        FastlaneCore::UI.user_error('repo_url, repo_user and repo_pasdword or repo_key must be set on upload')
+        return false
+      end
+
+      if rsa_keypath
+        rsa_key = load_rsa_key(rsa_keypath)
+        if rsa_key.nil?
+          FastlaneCore::UI.user_error('Failed to load RSA key... ' + options[:rsa_keypath])
+        end
+      end
+
       success = false
       if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
@@ -65,7 +78,6 @@ module AppRepo
       else
         FastlaneCore::UI.message('Logging in with username/password...')
         Net::SSH.start(host, user, password: password) do |ssh|
-          self.ssh_session = ssh
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
@@ -80,16 +92,17 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def download_manifest_only
+      FastlaneCore::UI.message('download_manifest_only...')
       rsa_key = load_rsa_key(rsa_keypath)
       success = true
       if !rsa_key.nil?
-        FastlaneCore::UI.message('Logging in with RSA key...')
+        FastlaneCore::UI.message('Logging in with RSA key for download...')
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
           FastlaneCore::UI.message('Uploading UPA & Manifest...')
           success = ssh_sftp_download(ssh, manifest_path)
         end
       else
-        FastlaneCore::UI.message('Logging in...')
+        FastlaneCore::UI.message('Logging in for download...')
         Net::SSH.start(host, user, password: password) do |ssh|
           FastlaneCore::UI.message('Uploading UPA & Manifest...')
           success = ssh_sftp_download(ssh, manifest_path)

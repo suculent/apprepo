@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'fastlane'
 require 'fastlane_core'
+require 'webmock/rspec'
 
 # This module is only used to check the environment is currently a testing env
 # Needs to be above the `require "apprepo"`
@@ -21,3 +22,5 @@ RSpec.configure do |config|
     # 'RSpec.configure is empty in spec_helper.rb'
   end
 end
+
+WebMock.disable_net_connect!(allow: 'coveralls.io')
