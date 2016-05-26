@@ -46,10 +46,10 @@ module AppRepo
   Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
 
-  UI.message("Initializing new CommandsGenerator")
+  UI.message('Initializing new CommandsGenerator')
   cgen = CommandsGenerator.new
-  UI.message("Downloading Manifest...")
+  UI.message('Downloading Manifest...')
   cgen.download_manifest
-  UI.message("Running Deployment...")
+  UI.message('Running Deployment...')
   cgen.run
 end

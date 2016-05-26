@@ -13,7 +13,7 @@ module SpecHelper
 end
 
 require 'rspec_junit_formatter'
-#require 'apprepo'
+# require 'apprepo'
 
 ENV['APPREPO_USER'] = 'circle'
 ENV['APPREPO_PASSWORD'] = 'circle'
