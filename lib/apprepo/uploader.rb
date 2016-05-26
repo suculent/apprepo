@@ -81,7 +81,7 @@ module AppRepo
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def download_metadata
+    def download_manifest
       rsa_key = load_rsa_key(rsa_keypath)
       if rsa_key?
         FastlaneCore::UI.message('Logging in with RSA key...')
