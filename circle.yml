@@ -27,6 +27,6 @@ test:
 
 ## Custom notifications
 notify:
-  webhooks:
-    - curl -X POST --data-urlencode 'payload={"text":"CirleCI Integration Completed."}' https://hooks.slack.com/services/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
+  - curl -X POST --data-urlencode 'payload={"text":"CirleCI Integration Completed."}' https://hooks.slack.com/services/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
+#  webhooks:    
 #    - url: https://hooks.slack.com/services/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
