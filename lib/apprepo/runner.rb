@@ -8,7 +8,7 @@ module AppRepo
     def initialize(options)
       self.options = options
       AppRepo::DetectValues.new.run!(self.options)
-      FastlaneCore::PrintTable.print_values(config: options, hide_keys: [:repo_password], mask_keys: [], title: "apprepo #{AppRepo::VERSION} Summary")
+      FastlaneCore::PrintTable.print_values(config: options, hide_keys: [:repo_password], mask_keys: [:repo_key], title: "apprepo-sftp #{AppRepo::VERSION} Summary")
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -39,10 +39,10 @@ module AppRepo
       # end
     end
 
-    def download_metadata
+    def download_manifest
       if options[:manifest_path]
         uploader = AppRepo::Uploader.new(options)
-        result = uploader.download_metadata
+        result = uploader.download_manifest
         msg = 'Metadata download failed. Check out the error above'
         UI.user_error!(msg) unless result
       end
