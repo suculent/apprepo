@@ -5,7 +5,7 @@ require 'json'
 require 'net/ssh'
 require 'net/sftp'
 
-require 'fastlane'
+#require 'fastlane'
 require 'fastlane_core'
 require 'fastlane_core/languages'
 
@@ -104,11 +104,12 @@ module AppRepo
 
     def ssh_sftp_download(ssh, _manifest_path)
       ssh.sftp.connect do |sftp|
-        FastlaneCore::UI.message('[Downloading] Will start...')
+        FastlaneCore::UI.message('Fetching remote manifest...')
         manifest = download_manifest(sftp)
         puts '********************************************************'
         puts JSON.pretty_generate(manifest)
         puts '********************************************************'
+        FastlaneCore::UI.success('Successfully fetched manifest (TODO: process).')
       end
     end
 
@@ -223,7 +224,7 @@ module AppRepo
         when :close then
           puts "\n"
         when :finish then
-          FastlaneCore::UI.success('Upload successful!')
+          FastlaneCore::UI.success('IPA upload successful!')
         end
       end
     end
@@ -239,7 +240,7 @@ module AppRepo
       result = sftp.upload!(local_path, remote_path) do |event, _uploader, *_args|
         case event
         when :finish then
-          FastlaneCore::UI.success('Upload successful!')
+          FastlaneCore::UI.success('Manifest upload successful!')
         end
       end
     end

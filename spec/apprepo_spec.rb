@@ -3,6 +3,6 @@ require 'apprepo'
 
 describe 'AppRepo' do
   it 'should not fail' do
-    AppRepo.run
+    AppRepo.new
   end
 end

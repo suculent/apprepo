@@ -1,5 +1,15 @@
+
+require 'rubygems'
+require 'json'
+require 'net/ssh'
+require 'net/sftp'
+
+#require 'apprepo'
 require_relative 'uploader'
+
+require 'fastlane'
 require 'fastlane_core'
+require 'fastlane_core/languages'
 
 module AppRepo
   # Should provide metadata for current appcode

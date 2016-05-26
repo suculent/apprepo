@@ -1,4 +1,4 @@
 AllCops:
   Exclude:
     - 'lib/apprepo/options.rb' # long lines
-
+    - 'lib/apprepo/version.rb' # long lines

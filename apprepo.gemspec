@@ -21,11 +21,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  # fastlane dependencies
-  spec.add_dependency 'fastlane', '~> 0'
+  # fastlane dependencies  
   spec.add_dependency 'fastlane_core', '~> 0'
-  spec.add_dependency 'net-ssh', '~> 0'
-  spec.add_dependency 'net-sftp', '~> 0'
+  spec.add_dependency 'net-ssh', '~> 2.6'
+  spec.add_dependency 'net-sftp', '~> 2.1'
   spec.add_dependency 'json', '= 1.8.1' # required by fastlane
 
   # third party dependencies
@@ -42,5 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coveralls', '~> 0'
   spec.add_development_dependency 'rubocop', '~> 0.38.0'
   spec.add_development_dependency 'fakefs', '~> 0'
-  spec.add_development_dependency 'coverband', '~> 0'
+  spec.add_development_dependency 'fastlane', '~> 1.89'
 end
