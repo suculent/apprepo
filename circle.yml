@@ -20,6 +20,7 @@ test:
   override:    
     - ruby ./lib/apprepo.rb run
     - ruby ./lib/apprepo.rb download_manifest
+    - ruby ./lib/apprepo.rb submit
     - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 
 ## Custom notifications

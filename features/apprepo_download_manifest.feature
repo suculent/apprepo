@@ -3,6 +3,6 @@ Feature: manifest download
   Docs
   
   Scenario: download manifest from sftp
-  Given an Uploader
-  When I send it the download_metadata message
+  Given an Apprepo
+  When I send it the download_manifest message
   Then I should see "SUCCESS"

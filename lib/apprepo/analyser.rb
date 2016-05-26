@@ -12,7 +12,7 @@ module AppRepo
 
     # Fetches remote app version from metadata
     def fetch_app_version(options)
-      metadata = AppRepo::Uploader.new(options).download_metadata
+      metadata = AppRepo::Uploader.new(options).download_manifest_only
       FastlaneCore::UI.user_error!('TODO: Parse version out from metadata')
       '0.0'
     end
