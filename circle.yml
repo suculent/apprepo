@@ -19,6 +19,7 @@ dependencies:
 
 test:
   override:    
+    - nslookup repo.teacloud.net
     - ruby ./lib/apprepo.rb run
     - ruby ./lib/apprepo.rb download_manifest
     - ruby ./lib/apprepo.rb submit    
@@ -27,4 +28,4 @@ test:
 ## Custom notifications
 notify:
   webhooks:
-    - url: https://hooks.slack.com/services/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?payload={"text":"<https://slack.com>"}
+    - url: https://hooks.slack.com/services/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
