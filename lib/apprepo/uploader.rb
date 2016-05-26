@@ -71,15 +71,15 @@ module AppRepo
       success = false
       if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
-        Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
+        Net::SSH.start(self.host, self.user, key_data: rsa_key, keys_only: true) do |ssh|
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       else
         FastlaneCore::UI.message('Logging in with username/password...')
-        Net::SSH.start(host, user, password: password) do |ssh|
+        Net::SSH.start(self.host, self.user, password: self.password) do |ssh|
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
-          success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
+          success = ssh_sftp_upload(ssh, self.ipa_path, self.manifest_path)
         end
       end
       success
