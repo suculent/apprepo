@@ -1,4 +1,4 @@
-Feature: manifest download
+Feature: apprepo download_manifest
 
   Docs
   

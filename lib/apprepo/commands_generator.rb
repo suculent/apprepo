@@ -15,6 +15,10 @@ module AppRepo
       checker.show_update_status('apprepo', AppRepo::VERSION)
     end
 
+    def download_manifest
+      command :download_manifest
+    end
+
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
