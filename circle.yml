@@ -24,8 +24,9 @@ test:
     - ruby ./lib/apprepo.rb download_manifest
     - ruby ./lib/apprepo.rb submit    
     - COVERALLS_REPO_TOKEN=5NIxBldNBfJzPgvlQnVojxNNW0197fUUf RAILS_ENV=test bundle exec rspec
+    - curl -X POST --data-urlencode 'payload={"text":"CirleCI Integration Completed."}' https://hooks.slack.com/services/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
 
 ## Custom notifications
-notify:
-  webhooks:
-    - url: https://hooks.slack.com/services/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
+#notify:
+#  webhooks:    
+#    - url: https://hooks.slack.com/services/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
