@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  add_runtime_dependency 'fastlane', '~> 1.91', '>= 0'
+
   # fastlane dependencies
   spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 2.6'
