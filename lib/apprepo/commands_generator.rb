@@ -19,6 +19,10 @@ module AppRepo
       command :download_manifest
     end
 
+    def init
+      command :init
+    end
+
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
