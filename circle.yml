@@ -11,6 +11,7 @@ dependencies:
     - gem install bundler
     - gem install fastlane
     - bundle update
+    - COVERALLS_REPO_TOKEN=5NIxBldNBfJzPgvlQnVojxNNW0197fUUf
 
   override:
     - bundle install: # note ':' here
@@ -21,7 +22,7 @@ test:
     - ruby ./lib/apprepo.rb run
     - ruby ./lib/apprepo.rb download_manifest
     - ruby ./lib/apprepo.rb submit
-    - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+    - COVERALLS_REPO_TOKEN=5NIxBldNBfJzPgvlQnVojxNNW0197fUUf RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
 
 ## Custom notifications
 notify:
