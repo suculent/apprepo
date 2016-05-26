@@ -42,7 +42,7 @@ module AppRepo
     def download_manifest
       if options[:manifest_path]
         uploader = AppRepo::Uploader.new(options)
-        result = uploader.download_manifest
+        result = uploader.download_manifest_only
         msg = 'Metadata download failed. Check out the error above'
         UI.user_error!(msg) unless result
       end
