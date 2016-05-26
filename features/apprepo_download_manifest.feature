@@ -5,4 +5,4 @@ Feature: manifest download
   Scenario: download manifest from sftp
   Given an Apprepo
   When I send it the download_manifest message
-  Then I should see "SUCCESS"
+  Then I should see "Successfully fetched manifest"

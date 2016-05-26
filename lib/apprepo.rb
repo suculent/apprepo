@@ -15,17 +15,18 @@ require_relative 'apprepo/setup'
 require_relative 'apprepo/uploader'
 require_relative 'apprepo/version'
 
+require 'fastlane'
 require 'fastlane_core'
 
 # Root class of the AppRepo SFTP Uploader
 module AppRepo
   class << self
       def initialize
-        UI.message('[AppRepo] Initializing...')
+        UI.message('AppRepo:self Initializing...')
       end
 
       def new
-        UI.message('[AppRepo] New...')
+        UI.message('AppRepo:new')
       end
   end
 

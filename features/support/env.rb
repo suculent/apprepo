@@ -1,1 +1,1 @@
-require './greeter.rb'
+require './lib/**'

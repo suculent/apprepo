@@ -4,8 +4,6 @@ require 'rubygems'
 require 'json'
 require 'net/ssh'
 require 'net/sftp'
-
-require 'fastlane'
 require 'fastlane_core'
 require 'fastlane_core/languages'
 
@@ -56,7 +54,20 @@ module AppRepo
     # rubocop:disable Metrics/MethodLength
     def upload
       # Login & Upload IPA with metadata using RSA key or username/password
-      rsa_key = load_rsa_key(rsa_keypath)
+      FastlaneCore::UI.message('upload...')
+
+      if host.nil? || user.nil?
+        FastlaneCore::UI.user_error('repo_url, repo_user and repo_pasdword or repo_key must be set on upload')
+        return false
+      end
+
+      if rsa_keypath
+        rsa_key = load_rsa_key(rsa_keypath)
+        if rsa_key.nil?
+          FastlaneCore::UI.user_error('Failed to load RSA key... ' + options[:rsa_keypath])
+        end
+      end
+
       success = false
       if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
@@ -65,10 +76,9 @@ module AppRepo
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       else
-        FastlaneCore::UI.message('Logging in...')
+        FastlaneCore::UI.message('Logging in with username/password...')
         Net::SSH.start(host, user, password: password) do |ssh|
-          self.ssh_session = ssh
-          FastlaneCore::UI.message('Logged in, uploading IPA & Manifest...')
+          FastlaneCore::UI.message('Uploading IPA & Manifest...')
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)
         end
       end
@@ -82,18 +92,19 @@ module AppRepo
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def download_manifest_only
+      FastlaneCore::UI.message('download_manifest_only...')
       rsa_key = load_rsa_key(rsa_keypath)
       success = true
       if !rsa_key.nil?
-        FastlaneCore::UI.message('Logging in with RSA key...')
+        FastlaneCore::UI.message('Logging in with RSA key for download...')
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
           FastlaneCore::UI.message('Uploading UPA & Manifest...')
           success = ssh_sftp_download(ssh, manifest_path)
         end
       else
-        FastlaneCore::UI.message('Logging in...')
+        FastlaneCore::UI.message('Logging in for download...')
         Net::SSH.start(host, user, password: password) do |ssh|
-          FastlaneCore::UI.message('Logged in, uploading UPA & Manifest...')
+          FastlaneCore::UI.message('Uploading UPA & Manifest...')
           success = ssh_sftp_download(ssh, manifest_path)
         end
       end
@@ -104,11 +115,13 @@ module AppRepo
 
     def ssh_sftp_download(ssh, _manifest_path)
       ssh.sftp.connect do |sftp|
-        FastlaneCore::UI.message('[Downloading] Will start...')
+        FastlaneCore::UI.message('Fetching remote manifest...')
         manifest = download_manifest(sftp)
         puts '********************************************************'
         puts JSON.pretty_generate(manifest)
         puts '********************************************************'
+        FastlaneCore::UI.success('Successfully fetched manifest')
+        FastlaneCore::UI.command_output('TODO: Processing manifest not implemented.')
       end
     end
 
@@ -211,7 +224,7 @@ module AppRepo
     # @param [String] local_ipa_path
     # @param [String] remote_ipa_path
     def upload_ipa(sftp, local_ipa_path, remote_ipa_path)
-      msg = '[Uploading IPA] ' + local_ipa_path + ' to ' + remote_ipa_path
+      msg = "[Uploading IPA] #{local_ipa_path} to #{remote_ipa_path}"
       FastlaneCore::UI.message(msg)
       result = sftp.upload!(local_ipa_path, remote_ipa_path) do |event, _uploader, *_args|
         case event
@@ -223,7 +236,7 @@ module AppRepo
         when :close then
           puts "\n"
         when :finish then
-          FastlaneCore::UI.success('Upload successful!')
+          FastlaneCore::UI.success('IPA upload successful')
         end
       end
     end
@@ -239,7 +252,7 @@ module AppRepo
       result = sftp.upload!(local_path, remote_path) do |event, _uploader, *_args|
         case event
         when :finish then
-          FastlaneCore::UI.success('Upload successful!')
+          FastlaneCore::UI.success('Manifest upload successful')
         end
       end
     end
@@ -264,7 +277,7 @@ module AppRepo
       sftp.mkdir remote_path
     rescue Net::SFTP::StatusException => e
       raise if e.code != 11
-      msg = 'Remote dir ' + remote_path + ' exists.'
+      msg = "Remote dir #{remote_path} exists."
       FastlaneCore::UI.message(msg)
     end
 
