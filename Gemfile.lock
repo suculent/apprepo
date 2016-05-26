@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    apprepo (0.0.7)
+    apprepo (0.0.8)
       fastimage (~> 1.6)
       fastlane (~> 0)
       fastlane_core (~> 0)

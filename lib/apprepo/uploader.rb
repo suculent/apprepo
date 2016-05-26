@@ -81,30 +81,29 @@ module AppRepo
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def download_metadata
+    def download_manifest_only
       rsa_key = load_rsa_key(rsa_keypath)
-      if rsa_key?
+      success = true
+      if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
-          self.ssh_session = ssh
           FastlaneCore::UI.message('Uploading UPA & Manifest...')
-          ssh_sftp_download(ssh, manifest_path)
+          success = ssh_sftp_download(ssh, manifest_path)
         end
       else
         FastlaneCore::UI.message('Logging in...')
         Net::SSH.start(host, user, password: password) do |ssh|
-          self.ssh_session = ssh
           FastlaneCore::UI.message('Logged in, uploading UPA & Manifest...')
-          ssh_sftp_download(ssh, manifest_path)
+          success = ssh_sftp_download(ssh, manifest_path)
         end
       end
+      success
     end
 
     private
 
-    def ssh_sftp_download(ssh, local_ipa_path, _manifest_path)
+    def ssh_sftp_download(ssh, _manifest_path)
       ssh.sftp.connect do |sftp|
-        break unless check_ipa(local_ipa_path)
         FastlaneCore::UI.message('[Downloading] Will start...')
         manifest = download_manifest(sftp)
         puts '********************************************************'

@@ -31,7 +31,7 @@ module AppRepo
       path = File.join(apprepo_path, 'metadata')
       FileUtils.mkdir_p(path)
       UI.success("TODO: DOWNLOAD MANIFEST'")
-      AppRepo::Uploader.download_metadata(options, path)
+      AppRepo::Uploader.new(options).download_manifest_only
     end
 
     def run(options)
