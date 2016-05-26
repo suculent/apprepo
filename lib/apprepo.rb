@@ -22,11 +22,11 @@ require 'fastlane_core'
 module AppRepo
   class << self
       def initialize
-        UI.message('[AppRepo] Initializing...')
+        UI.message('AppRepo:self Initializing...')
       end
 
       def new
-        UI.message('[AppRepo] New...')
+        UI.message('AppRepo:new')
       end
   end
 

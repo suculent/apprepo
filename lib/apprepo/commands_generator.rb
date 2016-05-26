@@ -46,11 +46,10 @@ module AppRepo
           loaded = true if options[:repo_description] || options[:ipa]
 
           unless loaded
-            puts '[AppRepo::CommandsGenerator] configuration file not loaded'
+            UI.message('[AppRepo::CommandsGenerator] configuration file not loaded')
             if UI.confirm('No Repofile found. Do you want to setup apprepo?')
               require 'apprepo/setup'
               AppRepo::Setup.new.run(options)
-              puts '[AppRepo::CommandsGenerator] exiting.'
               return 0
             end
           end
@@ -61,7 +60,7 @@ module AppRepo
 
       command :download_manifest do |c|
         c.syntax = 'apprepo download_manifest'
-        c.description = 'Download metadata only.'
+        c.description = 'Download metadata only'
         c.action do |_args, options|
           config = FastlaneCore::Configuration
           available_opts = AppRepo::Options.available_options
@@ -96,7 +95,7 @@ module AppRepo
           config = FastlaneCore::Configuration
           available_opts = AppRepo::Options.available_options
           options = config.create(available_opts, options.__hash__)
-          AppRepo::Runner.new(options) # to login...
+          AppRepo::Runner.new(options)
           AppRepo::Setup.new.run(options)
         end
       end

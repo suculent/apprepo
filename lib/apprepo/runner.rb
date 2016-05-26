@@ -43,7 +43,7 @@ module AppRepo
       if options[:manifest_path]
         uploader = AppRepo::Uploader.new(options)
         result = uploader.download_manifest_only
-        msg = 'Metadata download failed. Check out the error above'
+        msg = 'Metadata download failed. Check out the error above.'
         UI.user_error!(msg) unless result
       end
     end
@@ -53,14 +53,14 @@ module AppRepo
       if options[:ipa]
         uploader = AppRepo::Uploader.new(options)
         result = uploader.upload
-        msg = 'Binary upload failed. Check out the error above'
+        msg = 'Binary upload failed. Check out the error above.'
         UI.user_error!(msg) unless result
       end
     end
 
     def notify
       # should be in metadata
-      UI.message('TODO: Missing implementation for AppRepo Push Notifier')
+      UI.command_output('TODO: Missing implementation for AppRepo Push Notifier')
     end
   end
 end

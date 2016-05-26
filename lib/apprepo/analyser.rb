@@ -4,7 +4,6 @@ require 'json'
 require 'net/ssh'
 require 'net/sftp'
 
-#require 'apprepo'
 require_relative 'uploader'
 
 require 'fastlane'
@@ -23,13 +22,15 @@ module AppRepo
     # Fetches remote app version from metadata
     def fetch_app_version(options)
       metadata = AppRepo::Uploader.new(options).download_manifest_only
-      FastlaneCore::UI.user_error!('TODO: Parse version out from metadata')
-      '0.0'
+      FastlaneCore::UI.command_output('TODO: Parse version out from metadata')
+      puts JSON.pretty_generate(metadata) unless metadata.nil?
+      FastlaneCore::UI.important('TODO: parse out the bundle-version')
+      metadata['bundle-version']
     end
 
     # only for testing, should be empty
     def run
-      FastlaneCore::UI.message('AppRepo:Analyser.run for test...')
+      FastlaneCore::UI.message('Analyser run, will fetch_app_version...')
       fetch_app_version(options)
     end
   end

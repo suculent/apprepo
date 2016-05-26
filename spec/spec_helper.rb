@@ -7,7 +7,7 @@ require 'fastlane'
 require 'fastlane_core'
 
 # This module is only used to check the environment is currently a testing env
-# Needs to be above the `require 'apprepo'`
+# Needs to be above the `require "apprepo"`
 module SpecHelper
 end
 
