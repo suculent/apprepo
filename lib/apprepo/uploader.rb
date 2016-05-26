@@ -71,7 +71,6 @@ module AppRepo
       success = false
       if !rsa_key.nil?
         FastlaneCore::UI.message('Logging in with RSA key...')
-        putc host
         Net::SSH.start(host, user, key_data: rsa_key, keys_only: true) do |ssh|
           FastlaneCore::UI.message('Uploading IPA & Manifest...')
           success = ssh_sftp_upload(ssh, ipa_path, manifest_path)

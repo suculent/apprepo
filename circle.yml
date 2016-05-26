@@ -23,7 +23,7 @@ test:
     - ruby ./lib/apprepo.rb run
     - ruby ./lib/apprepo.rb download_manifest
     - ruby ./lib/apprepo.rb submit    
-    - COVERALLS_REPO_TOKEN=5NIxBldNBfJzPgvlQnVojxNNW0197fUUf RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml # --format RspecJunitFormatter 
+    - COVERALLS_REPO_TOKEN=5NIxBldNBfJzPgvlQnVojxNNW0197fUUf RAILS_ENV=test bundle exec rspec
 
 ## Custom notifications
 notify:
