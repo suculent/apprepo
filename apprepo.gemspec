@@ -26,6 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'net-ssh', '~> 2.6'
   spec.add_dependency 'net-sftp', '~> 2.1'
   spec.add_dependency 'json', '= 1.8.1' # required by fastlane
+  spec.add_dependency 'plist', '= 3.2.0'
+  spec.add_dependency 'fastlane'
 
   # third party dependencies
   spec.add_dependency 'fastimage', '~> 1.6'
@@ -34,12 +36,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.0'
   spec.add_development_dependency 'rake', '~> 0.1'
   spec.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
-  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.2.2'
+  #spec.add_development_dependency 'rspec_junit_formatter', '~> 0.2.2'
   spec.add_development_dependency 'pry', '~> 0'
   spec.add_development_dependency 'yard', '~> 0.8.7.4'
   spec.add_development_dependency 'webmock', '~> 1.19', '>= 1.19.0'
   spec.add_development_dependency 'coveralls', '~> 0'
   spec.add_development_dependency 'rubocop', '~> 0.38.0'
   spec.add_development_dependency 'fakefs', '~> 0'
-  spec.add_development_dependency 'fastlane', '~> 1.89'
+  spec.add_development_dependency 'fastlane', '~> 1.91'
 end
