@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'apprepo'
+require "apprepo"
 
-describe 'AppRepo' do
+describe "apprepo" do
   it 'should not fail' do
     AppRepo.new
   end
