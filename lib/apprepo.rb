@@ -28,6 +28,16 @@ module AppRepo
       def new
         UI.message('AppRepo:new')
       end
+
+      def download_manifest
+        cgen = CommandsGenerator.new
+        cgen.download_manifest
+      end
+
+      def run
+        cgen = CommandsGenerator.new
+        cgen.run
+      end
   end
 
   Encoding.default_external = Encoding::UTF_8
@@ -36,5 +46,10 @@ module AppRepo
   Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
 
-  CommandsGenerator.new.run
+  UI.message('Initializing new CommandsGenerator')
+  cgen = CommandsGenerator.new
+  UI.message('Downloading Manifest...')
+  cgen.download_manifest
+  UI.message('Running Deployment...')
+  cgen.run
 end
