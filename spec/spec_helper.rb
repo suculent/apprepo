@@ -12,6 +12,7 @@ require 'webmock/rspec'
 module SpecHelper
 end
 
+require 'rspec_junit_formatter'
 require 'apprepo'
 
 ENV['APPREPO_USER'] = 'circle'
