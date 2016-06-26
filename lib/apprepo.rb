@@ -45,7 +45,8 @@ module AppRepo
 
   Helper = FastlaneCore::Helper
   UI = FastlaneCore::UI
-
+  
+  # Test only, should be removed...
   UI.message('Initializing new CommandsGenerator')
   cgen = CommandsGenerator.new
   UI.message('Downloading Manifest...')

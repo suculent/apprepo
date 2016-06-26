@@ -32,11 +32,10 @@
 apprepo
 ============
 
-**This project is a preparation phase for fastlane-plugin-apprepo and will eventually deprecate.**
+**This project is now deprecated in favor of [fastlane-plugin-apprepo](https://github.com/suculent/fastlane-plugin-apprepo)**
 
 [![Twitter: @igraczech](https://img.shields.io/badge/contact-%40igraczech-green.svg?style=flat)](https://twitter.com/igraczech)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/fastlane/fastlane/blob/master/deliver/LICENSE)
-![Status](https://img.shields.io/badge/_waiting--for_-_fastlane--plugins--manager_-yellow.svg)
 [![Gem](https://img.shields.io/gem/v/apprepo.svg?style=flat)](http://rubygems.org/gems/apprepo)
 [![Build Status](https://img.shields.io/circleci/project/suculent/apprepo.svg?style=flat)](https://circleci.com/gh/suculent/apprepo)
 [![Coverage Status](https://coveralls.io/repos/github/suculent/apprepo/badge.svg?branch=master)](https://coveralls.io/github/suculent/apprepo?branch=master)
@@ -61,14 +60,14 @@ Get in contact with the developer on Twitter: [@igraczech](https://twitter.com/i
 
 -------
 
-<h5 align="center"><code>apprepo</code> is now just a couple days old 3rd party extension of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps. I'm in contact with Felix Krause to make this part of Fastlane as open SFTP uploader adjacent to `Deliver`.</h5>
+<h5 align="center"><code>apprepo</code> is deprecated 3rd party extension of <a href="https://fastlane.tools">fastlane</a>: The easiest way to automate building and releasing your iOS and Android apps. I'm in contact with Felix Krause to make this part of Fastlane as open SFTP uploader adjacent to `Deliver`.</h5>
 
-# Future Features
-- Submit to AppRepo completely automatically
-- Upload a new ipa file to AppRepo without Xcode from any Mac
+# Features
+- Submit IPA to AppRepo completely automatically
+- Upload a new IPA file to AppRepo without Xcode from any Mac
 - Maintain your app manifest locally and push changes to AppRepo
 - Easily implement a real Continuous Deployment process using [fastlane](https://fastlane.tools)
-- Store the configuration in git to easily deploy from **any** Mac, including your Continuous Integration server
+- Store the configuration in git to easily deploy from **any** Mac with installed AppRepo RSA key, including your Continuous Integration server.
 
 To upload builds to AppStore check out [deliver](https://github.com/fastlane/fastlane/tree/master/deliver).
 
@@ -102,12 +101,22 @@ From now on, you can run `apprepo` to deploy a new update, or just upload new ap
 
 # Usage
 
-... to be done ...
+Initialize Repofile or upload IPA and manifest.json based on that file:
+
+    apprepo run
+    
+Download manifest.json from AppRepo Server:
+
+    apprepo download_manifest
+    
+Upload IPA and manifest:
+    
+    apprepo submit   
 
 # Credentials
 
-... to be done ...
-
+Matej Sychra
+Felix Krause
 
 # Fastlane Tips
 
