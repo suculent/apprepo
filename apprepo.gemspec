@@ -22,8 +22,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # fastlane dependencies
-  spec.add_dependency 'fastlane'
-  spec.add_dependency 'fastlane_core', '~> 0'
   spec.add_dependency 'net-ssh', '~> 2.6'
   spec.add_dependency 'net-sftp', '~> 2.1'
   spec.add_dependency 'json', '= 1.8.1' # required by fastlane
