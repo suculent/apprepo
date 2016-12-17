@@ -1,4 +1,4 @@
-require 'commander'
+#require 'commander'
 
 HighLine.track_eof = false
 

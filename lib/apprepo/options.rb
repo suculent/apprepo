@@ -1,5 +1,3 @@
-#require 'fastlane_core'
-
 module AppRepo
   # Provides available options for the commands generator
   class Options
