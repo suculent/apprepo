@@ -15,8 +15,8 @@ require_relative 'apprepo/setup'
 require_relative 'apprepo/uploader'
 require_relative 'apprepo/version'
 
-require 'fastlane'
-require 'fastlane_core'
+#require 'fastlane'
+#require 'fastlane_core'
 
 # Root class of the AppRepo SFTP Uploader
 module AppRepo
