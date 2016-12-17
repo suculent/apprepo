@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'net-ssh', '~> 2.6'
   spec.add_dependency 'net-sftp', '~> 2.1'
   spec.add_dependency 'json', '= 1.8.1' # required by fastlane
-  spec.add_dependency 'plist', '>= 3.1.0'
+  spec.add_dependency 'plist', '~> 3.1', '>= 3.1.0'
 
   # third party dependencies
   spec.add_dependency 'fastimage', '~> 1.6'

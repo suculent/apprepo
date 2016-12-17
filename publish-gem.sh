@@ -1,3 +1,3 @@
-gem push apprepo-0.0.*.gem
-rm -rf apprepo-0.0.*.gem
+gem push apprepo-*.gem
+rm -rf apprepo-*.gem
 

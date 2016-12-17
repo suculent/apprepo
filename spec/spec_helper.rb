@@ -3,8 +3,6 @@ Coveralls.wear! # unless ENV['FASTLANE_SKIP_UPDATE_CHECK']
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require 'fastlane'
-require 'fastlane_core'
 require 'webmock/rspec'
 
 # This module is only used to check the environment is currently a testing env
@@ -13,7 +11,6 @@ module SpecHelper
 end
 
 require 'rspec_junit_formatter'
-# require 'apprepo'
 
 ENV['APPREPO_USER'] = 'circle'
 ENV['APPREPO_PASSWORD'] = 'circle'
