@@ -4,8 +4,8 @@ require 'rubygems'
 require 'json'
 require 'net/ssh'
 require 'net/sftp'
-require 'fastlane_core'
-require 'fastlane_core/languages'
+#require 'fastlane_core'
+#require 'fastlane_core/languages'
 
 require_relative 'options'
 
