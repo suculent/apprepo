@@ -1,5 +1,7 @@
-require 'spec_helper'
 require 'apprepo'
+require 'fastlane'
+require 'fastlane_core'
+require 'spec_helper'
 
 describe 'apprepo' do
   it 'should not fail' do

@@ -1,3 +1,5 @@
+#require 'fastlane_core/languages'
+
 module AppRepo
   # Responsible for loading language folders
   module Loader
